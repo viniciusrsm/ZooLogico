@@ -37,9 +37,7 @@ public class RecintoPeixe extends Recinto {
 
     public float getTemperaturaAgua() {
         return temperaturaAgua;
-    }
-
-    public void setTemperaturaAgua(float temperaturaAgua) {
+    }public void setTemperaturaAgua(float temperaturaAgua) {
         this.temperaturaAgua = temperaturaAgua;
     }
 

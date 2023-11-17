@@ -217,9 +217,9 @@ public class Login extends javax.swing.JFrame {
             System.out.println(funcionarioEscolhido.getSenha());
             if (funcionarioEscolhido.getCpf().equals(txtCpf.getText()) && funcionarioEscolhido.getSenha().equals(String.valueOf(txtpSenha.getPassword()))) {
                 System.out.println(funcionarioEscolhido instanceof Veterinario);
-                if (funcionarioEscolhido instanceof Diretor) new DiretorTela(arquivo).setVisible(true); this.dispose();
+                if (funcionarioEscolhido instanceof Diretor) new DiretorTela(arquivo, (Diretor) funcionarioEscolhido).setVisible(true); this.dispose();
                 if (funcionarioEscolhido instanceof Veterinario) new VeterinarioTela(arquivo, (Veterinario) funcionarioEscolhido).setVisible(true); this.dispose();
-                if (funcionarioEscolhido instanceof Biologo) new BiologoTela(arquivo).setVisible(true); this.dispose();
+                if (funcionarioEscolhido instanceof Biologo) new BiologoTela(arquivo, (Biologo) funcionarioEscolhido).setVisible(true); this.dispose();
                 
             
         }

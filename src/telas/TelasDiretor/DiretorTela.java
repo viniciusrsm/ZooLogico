@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import telas.EditarPerfil;
 import telas.TelasBiologo.AnalisarRecinto;
 import telas.TelasVeterinario.AnalisarAnimal;
+import zoologico.Diretor;
 import zoologico.GerenciadorArquivos;
 
 /**
@@ -22,6 +23,22 @@ public class DiretorTela extends javax.swing.JFrame {
      * Creates new form Diretor
      * @param arquivo
      */
+    public DiretorTela(GerenciadorArquivos arquivo, Diretor diretorEscolhido) {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        this.arquivo = arquivo;
+        
+        addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e){
+                    try {
+                        arquivo.exportarArquivos();
+                    } catch (Exception ex) {}
+                }
+            });
+    }
+    
     public DiretorTela(GerenciadorArquivos arquivo) {
         initComponents();
         
@@ -67,11 +84,12 @@ public class DiretorTela extends javax.swing.JFrame {
         btnRecinto = new javax.swing.JButton();
         btnAnimais = new javax.swing.JButton();
         btnFuncionario = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Sitka Small", 1, 18)); // NOI18N
-        jLabel1.setText("Bem-vindo (nome)");
+        jLabel1.setText("Bem-vindo");
 
         jLabel2.setFont(new java.awt.Font("Sitka Small", 1, 14)); // NOI18N
         jLabel2.setText("Cargo: Diretor");
@@ -120,6 +138,9 @@ public class DiretorTela extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Sitka Text", 1, 18)); // NOI18N
+        jLabel3.setText("(nome)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,12 +148,18 @@ public class DiretorTela extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                        .addComponent(btnRecinto, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnRecinto, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditarPerfil, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -145,7 +172,9 @@ public class DiretorTela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2))
                     .addComponent(btnEditarPerfil))
@@ -214,5 +243,6 @@ public class DiretorTela extends javax.swing.JFrame {
     private javax.swing.JButton btnRecinto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,10 +20,39 @@ import zoologico.RecintoAnfibio;
  */
 public class RecintoAnfibioTela extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
+    boolean editor = false;
+    RecintoAnfibio recintoEscolhido;
     /**
      * Creates new form AdicionarAnimal
      * @param arquivo
+     * @param recintoEscolhido
      */
+    
+    public RecintoAnfibioTela(GerenciadorArquivos arquivo, RecintoAnfibio recintoEscolhido) {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        this.arquivo = arquivo;
+        this.recintoEscolhido = recintoEscolhido;
+        
+        this.editor = true;
+        
+        txtFamilia.setText(recintoEscolhido.getFamilia());
+        txtVegetacao.setText(recintoEscolhido.getTipoVegetação());
+        txtVolume.setText(String.valueOf(recintoEscolhido.getVolumeTerrario()));
+        txtUmidade.setText(String.valueOf(recintoEscolhido.getUmidade()));
+        txtTemperatura.setText(String.valueOf(recintoEscolhido.getTemperaturaTerrario()));
+        jrDiurno.setSelected(recintoEscolhido.isDiurno());
+        
+        txtFamilia.setForeground(new Color(0, 0, 0));
+        txtVegetacao.setForeground(new Color(0, 0, 0));
+        txtVolume.setForeground(new Color(0, 0, 0));
+        txtUmidade.setForeground(new Color(0, 0, 0));
+        txtTemperatura.setForeground(new Color(0, 0, 0));
+        
+    }
+    
     public RecintoAnfibioTela(GerenciadorArquivos arquivo) {
         initComponents();
         
@@ -358,12 +387,23 @@ public class RecintoAnfibioTela extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", JOptionPane.PLAIN_MESSAGE);
         } else {
+            if (editor) {
+                recintoEscolhido.setFamilia(txtFamilia.getText());
+                recintoEscolhido.setTipoVegetação(txtVegetacao.getText());
+                recintoEscolhido.setUmidade(Float.parseFloat(txtUmidade.getText()));
+                recintoEscolhido.setTemperaturaTerrario(Float.parseFloat(txtTemperatura.getText()));
+                recintoEscolhido.setVolumeTerrario(Double.parseDouble(txtVolume.getText()));
+                recintoEscolhido.setDiurno(jrDiurno.isSelected());
+            }
+            else {
+                ArrayList<Animal> animais = null;
+                RecintoAnfibio recintoAnfCriado = new RecintoAnfibio(Float.parseFloat(txtUmidade.getText()), Double.parseDouble(txtVolume.getText()),
+                                                       Float.parseFloat(txtTemperatura.getText()), txtVegetacao.getText(), 
+                                                                jrDiurno.isSelected(), animais, txtFamilia.getText());
+                arquivo.adicionarObjeto(2, recintoAnfCriado);
+            }
             dispose();
-            ArrayList<Animal> animais = null;
-            RecintoAnfibio recintoAnfCriado = new RecintoAnfibio(Float.parseFloat(txtUmidade.getText()), Double.parseDouble(txtVolume.getText()),
-                                                   Float.parseFloat(txtTemperatura.getText()), txtVegetacao.getText(), 
-                                                            jrDiurno.isSelected(), animais, txtFamilia.getText());
-            arquivo.adicionarObjeto(2, recintoAnfCriado);
+            
         }
         
     }//GEN-LAST:event_btnConfAnimalActionPerformed

@@ -7,6 +7,7 @@ package telas.TelasBiologo;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import telas.EditarPerfil;
+import zoologico.Biologo;
 import zoologico.GerenciadorArquivos;
 
 /**
@@ -19,7 +20,7 @@ public class BiologoTela extends javax.swing.JFrame {
      * Creates new form Biologo
      * @param arquivo
      */
-    public BiologoTela(GerenciadorArquivos arquivo) {
+    public BiologoTela(GerenciadorArquivos arquivo, Biologo biologoEscolhido) {
         initComponents();
         
         setLocationRelativeTo(null);
@@ -55,11 +56,12 @@ public class BiologoTela extends javax.swing.JFrame {
         btnEditarPerfil = new javax.swing.JButton();
         btnAdicionarRecinto = new javax.swing.JButton();
         btnAnalisarRecinto = new javax.swing.JButton();
+        txtNome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Sitka Small", 1, 18)); // NOI18N
-        jLabel1.setText("Bem-vindo (nome)");
+        jLabel1.setText("Bem-vindo");
         jLabel1.setMaximumSize(new java.awt.Dimension(162, 1));
 
         jLabel2.setFont(new java.awt.Font("Sitka Small", 1, 14)); // NOI18N
@@ -98,6 +100,9 @@ public class BiologoTela extends javax.swing.JFrame {
             }
         });
 
+        txtNome.setFont(new java.awt.Font("Sitka Text", 1, 18)); // NOI18N
+        txtNome.setText("(nome)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,9 +110,12 @@ public class BiologoTela extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNome))
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addComponent(btnEditarPerfil)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -124,7 +132,9 @@ public class BiologoTela extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEditarPerfil)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNome))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)))
                 .addGap(52, 52, 52)
@@ -188,5 +198,6 @@ public class BiologoTela extends javax.swing.JFrame {
     private javax.swing.JButton btnEditarPerfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel txtNome;
     // End of variables declaration//GEN-END:variables
 }

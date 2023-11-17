@@ -35,7 +35,7 @@ public class RecintoAveTela extends javax.swing.JFrame {
         this.arquivo = arquivo;
         this.recintoEscolhido = recintoEscolhido;
         
-        editor = true;
+        this.editor = true;
         
         txtFamilia.setText(recintoEscolhido.getFamilia());
         txtVegetacao.setText(recintoEscolhido.getTipoVegetação());
@@ -337,19 +337,19 @@ public class RecintoAveTela extends javax.swing.JFrame {
         } else {
             
             
-            if (editor) {
-                recintoEscolhido.setFamilia(txtFamilia.getText());
-                recintoEscolhido.setTipoVegetação(txtVegetacao.getText());
-                recintoEscolhido.setVolumeAviario(Double.parseDouble(txtVolume.getText()));
-                recintoEscolhido.setDiurno(jrDiurno.isSelected());
-                recintoEscolhido.setPossuiPoleiro(jrPoleiro.isSelected());
-            }
-            else {
-                ArrayList<Animal> animais = null;
-                RecintoAve recintoAveCriado = new RecintoAve(jrPoleiro.isSelected(), Double.parseDouble(txtVolume.getText()),
-                                                      txtVegetacao.getText(), jrDiurno.isSelected(), animais, txtFamilia.getText());
-                arquivo.adicionarObjeto(2, recintoAveCriado);
-            }
+                if (editor) {
+                    recintoEscolhido.setFamilia(txtFamilia.getText());
+                    recintoEscolhido.setTipoVegetação(txtVegetacao.getText());
+                    recintoEscolhido.setVolumeAviario(Double.parseDouble(txtVolume.getText()));
+                    recintoEscolhido.setDiurno(jrDiurno.isSelected());
+                    recintoEscolhido.setPossuiPoleiro(jrPoleiro.isSelected());
+                }
+                else {
+                    ArrayList<Animal> animais = null;
+                    RecintoAve recintoAveCriado = new RecintoAve(jrPoleiro.isSelected(), Double.parseDouble(txtVolume.getText()),
+                                                          txtVegetacao.getText(), jrDiurno.isSelected(), animais, txtFamilia.getText());
+                    arquivo.adicionarObjeto(2, recintoAveCriado);
+                }
             
             
             dispose();

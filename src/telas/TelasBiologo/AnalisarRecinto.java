@@ -8,7 +8,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import zoologico.GerenciadorArquivos;
 import zoologico.Recinto;
+import zoologico.RecintoAnfibio;
 import zoologico.RecintoAve;
+import zoologico.RecintoMamifero;
+import zoologico.RecintoPeixe;
+import zoologico.RecintoRepteis;
 
 /**
  *
@@ -223,6 +227,18 @@ public class AnalisarRecinto extends javax.swing.JFrame {
             switch (recintoEscolhido.toString()) {
                 case ("Ave"):
                     new RecintoAveTela(arquivo, (RecintoAve) recintoEscolhido).setVisible(true);
+                    break;
+                case ("Mamífero"):
+                    new RecintoMamiferoTela(arquivo, (RecintoMamifero) recintoEscolhido).setVisible(true);
+                    break;
+                case ("Anfíbio"):
+                    new RecintoAnfibioTela(arquivo, (RecintoAnfibio) recintoEscolhido).setVisible(true);
+                    break;
+                case ("Peixe"):
+                    new RecintoPeixeTela(arquivo, (RecintoPeixe) recintoEscolhido).setVisible(true);
+                    break;
+                case ("Reptíl"):
+                    new RecintoRepteisTela(arquivo, (RecintoRepteis) recintoEscolhido).setVisible(true);
                     break;
                 default:
                     throw new AssertionError();

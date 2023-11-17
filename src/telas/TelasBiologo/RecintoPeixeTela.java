@@ -20,10 +20,38 @@ import zoologico.RecintoPeixe;
  */
 public class RecintoPeixeTela extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
+    RecintoPeixe recintoEscolhido;
+    boolean editor = false;
     /**
      * Creates new form AdicionarAnimal
      * @param arquivo
      */
+    public RecintoPeixeTela(GerenciadorArquivos arquivo, RecintoPeixe recintoEscolhido) {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        this.arquivo = arquivo;
+        this.recintoEscolhido = recintoEscolhido;
+        
+        this.editor = true;
+        
+        txtFamilia.setText(recintoEscolhido.getFamilia());
+        txtVegetacao.setText(recintoEscolhido.getTipoVegetação());
+        txtPh.setText(String.valueOf(recintoEscolhido.getPhAgua()));
+        txtTemperatura.setText(String.valueOf(recintoEscolhido.getTemperaturaAgua()));
+        txtVolume.setText(String.valueOf(recintoEscolhido.getVolumeAquario()));
+        jrDiurno.setSelected(recintoEscolhido.isDiurno());
+        jrOsseo.setSelected(recintoEscolhido.isOsseo());
+        
+        txtFamilia.setForeground(new Color(0, 0, 0));
+        txtVegetacao.setForeground(new Color(0, 0, 0));
+        txtTemperatura.setForeground(new Color(0, 0, 0));
+        txtPh.setForeground(new Color(0, 0, 0));
+        txtVolume.setForeground(new Color(0, 0, 0));
+        
+    }
+    
     public RecintoPeixeTela(GerenciadorArquivos arquivo) {
         initComponents();
         
@@ -371,13 +399,23 @@ public class RecintoPeixeTela extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", JOptionPane.PLAIN_MESSAGE);
         } else {
+            if (editor) {
+                recintoEscolhido.setFamilia(txtFamilia.getText());
+                recintoEscolhido.setTipoVegetação(txtVegetacao.getText());
+                recintoEscolhido.setTemperaturaAgua(Float.parseFloat(txtTemperatura.getText()));
+                recintoEscolhido.setVolumeAquario(Double.parseDouble(txtVolume.getText()));
+                recintoEscolhido.setPhAgua(Float.parseFloat(txtPh.getText()));
+                recintoEscolhido.setDiurno(jrDiurno.isSelected());
+                recintoEscolhido.setOsseo(jrOsseo.isSelected());
+            }
+            else {
+                ArrayList<Animal> animais = null;
+                RecintoPeixe recintoPeixeCriado = new RecintoPeixe(Double.parseDouble(txtVolume.getText()), Float.parseFloat(txtTemperatura.getText()), Float.parseFloat(txtPh.getText()), 
+                                                    jrOsseo.isSelected(), txtVegetacao.getText(),
+                                                    jrDiurno.isSelected(), animais, txtFamilia.getText());
+                arquivo.adicionarObjeto(2, recintoPeixeCriado);
+            }
             dispose();
-            
-            ArrayList<Animal> animais = null;
-            RecintoPeixe recintoPeixeCriado = new RecintoPeixe(Double.parseDouble(txtVolume.getText()), Float.parseFloat(txtTemperatura.getText()), Float.parseFloat(txtPh.getText()), 
-                                                jrOsseo.isSelected(), txtVegetacao.getText(),
-                                                jrDiurno.isSelected(), animais, txtFamilia.getText());
-            arquivo.adicionarObjeto(2, recintoPeixeCriado);
         }
     }//GEN-LAST:event_btnConfAnimalActionPerformed
 

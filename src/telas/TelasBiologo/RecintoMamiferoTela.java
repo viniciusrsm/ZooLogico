@@ -20,10 +20,36 @@ import zoologico.RecintoMamifero;
  */
 public class RecintoMamiferoTela extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
+    RecintoMamifero recintoEscolhido;
+    boolean editor = false;
     /**
      * Creates new form AdicionarAnimal
      * @param arquivo
      */
+    public RecintoMamiferoTela(GerenciadorArquivos arquivo, RecintoMamifero recintoEscolhido) {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        this.arquivo = arquivo;
+        this.recintoEscolhido = recintoEscolhido;
+        
+        this.editor = true;
+        
+        txtFamilia.setText(recintoEscolhido.getFamilia());
+        txtVegetacao.setText(recintoEscolhido.getTipoVegetação());
+        txtArea.setText(String.valueOf(recintoEscolhido.getAreaTotal()));
+        jrDiurno.setSelected(recintoEscolhido.isDiurno());
+        jrPoleiro.setSelected(recintoEscolhido.isPossuiPoleiro());
+        jrAquatico.setSelected(recintoEscolhido.isAquatico());
+        jrArboricola.setSelected(recintoEscolhido.isArboricolas());
+        
+        txtFamilia.setForeground(new Color(0, 0, 0));
+        txtVegetacao.setForeground(new Color(0, 0, 0));
+        txtArea.setForeground(new Color(0, 0, 0));
+        
+    }
+    
     public RecintoMamiferoTela(GerenciadorArquivos arquivo) {
         initComponents();
         
@@ -325,13 +351,25 @@ public class RecintoMamiferoTela extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", JOptionPane.PLAIN_MESSAGE);
         } else {
+            if (editor) {
+                recintoEscolhido.setFamilia(txtFamilia.getText());
+                recintoEscolhido.setTipoVegetação(txtVegetacao.getText());
+                recintoEscolhido.setAreaTotal(Float.parseFloat(txtArea.getText()));
+                recintoEscolhido.setDiurno(jrDiurno.isSelected());
+                recintoEscolhido.setAquatico(jrAquatico.isSelected());
+                recintoEscolhido.setArboricolas(jrArboricola.isSelected());
+                recintoEscolhido.setPossuiPoleiro(jrPoleiro.isSelected());
+            }
+            else {
+                ArrayList<Animal> animais = null;
+                RecintoMamifero recintoMamCriado = new RecintoMamifero(jrPoleiro.isSelected(), jrAquatico.isSelected(), jrArboricola.isSelected(), 
+                                                    Double.parseDouble(txtArea.getText()), txtVegetacao.getText(),
+                                                    jrDiurno.isSelected(), animais, txtFamilia.getText());
+                arquivo.adicionarObjeto(2, recintoMamCriado);
+            }
             dispose();
             
-            ArrayList<Animal> animais = null;
-            RecintoMamifero recintoMamCriado = new RecintoMamifero(jrPoleiro.isSelected(), jrAquatico.isSelected(), jrArboricola.isSelected(), 
-                                                Double.parseDouble(txtArea.getText()), txtVegetacao.getText(),
-                                                jrDiurno.isSelected(), animais, txtFamilia.getText());
-            arquivo.adicionarObjeto(2, recintoMamCriado);
+            
         }
     }//GEN-LAST:event_btnConfAnimalActionPerformed
 
