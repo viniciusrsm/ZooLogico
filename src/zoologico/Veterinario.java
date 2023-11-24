@@ -30,14 +30,6 @@ public class Veterinario extends Funcionario {
     public void removerAnimal(String animalId) {
         idAnimaisResponsavel.remove(animalId);
     }
-
-    public String getCrmv() {
-        return crmv;
-    }
-
-    public void setCrmv(String crmv) {
-        this.crmv = crmv;
-    }
     
     @Override
     public String getCr() {
@@ -53,4 +45,7 @@ public class Veterinario extends Funcionario {
     }
     
     
+    public void setCr(String cr) {
+        this.crmv = cr;
+    };
 }

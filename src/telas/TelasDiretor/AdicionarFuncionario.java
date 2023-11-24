@@ -29,7 +29,7 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
     boolean flag;
     
     boolean editor = false;
-    Funcionario funcionarioEscolhido = null;
+    Funcionario funcionarioEscolhido;
     
     public AdicionarFuncionario(GerenciadorArquivos arquivo, int indexLista) {
         initComponents();
@@ -526,19 +526,16 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
             
             
             // se estiver editando um animal já criado
-            //if (editor) {
-            //    animalEscolhido.setNome(txtNome.getText());
-            //    animalEscolhido.setEspecie(txtEspecie.getText());
-            //    animalEscolhido.setDataNascimento(txtDataNascimento.getText());
-            //    animalEscolhido.setTipoSanguineo(txtTipoSanguineo.getText());
-            //    animalEscolhido.setSexo(txtSexo.getText());
-            //    animalEscolhido.setHistorico(txtHistorico.getText());
-            //    animalEscolhido.setCuidadosEspeciais(txtCuidadosEspeciais.getText());
-            //    animalEscolhido.setRecinto(null);
-            //    animalEscolhido.setVenenoso(btnVenenoso.isSelected());
+            if (editor) {
+                funcionarioEscolhido.setNome(txtNome.getText());
+                funcionarioEscolhido.setCpf(txtCpf.getText());
+                funcionarioEscolhido.setDataNascimento(txtDataNascimento.getText());
+                funcionarioEscolhido.setSenha(txtSenha.getText());
+                funcionarioEscolhido.setSexo(txtSexo.getText());
+                funcionarioEscolhido.setCr(txtCr.getText());
             
             // se estiver criando um animal
-            //} else {
+            } else {
                 //Recinto recinto = null;
                 if (jrbBiologo.isSelected()) {
                     ArrayList<Recinto> recintos = null;
@@ -553,13 +550,8 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                 }
                 
             //}
-            
-            try {
-                //arquivo.exportarArquivos();
-            } catch (Exception ex) {
-                
+
             }
-            dispose();
         }
     }//GEN-LAST:event_btnConfAnimalActionPerformed
 

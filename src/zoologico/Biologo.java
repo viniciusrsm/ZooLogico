@@ -32,18 +32,14 @@ public class Biologo extends Funcionario {
     public void removerRecinto(Recinto recinto) {
         recintosResponsavel.remove(recinto);
     }
-
-    public String getCrbio() {
-        return crbio;
-    }
-
-    public void setCrbio(String crbio) {
-        this.crbio = crbio;
-    }
     
     @Override
     public String getCr() {
         return crbio;
     }
+    
+    public void setCr(String cr) {
+        this.crbio = cr;
+    };
     
 }

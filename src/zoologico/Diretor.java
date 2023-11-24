@@ -69,4 +69,5 @@ public class Diretor extends Funcionario{
     public String getCr() {
         return "";
     }
+    public void setCr(String cr) {};
 }

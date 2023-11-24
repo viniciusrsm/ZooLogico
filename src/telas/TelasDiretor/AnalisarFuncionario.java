@@ -34,6 +34,27 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
        
     }
     
+    public void carregarTabelaPesFuncionario(String cpf){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[] {"CPF", "Nome", "Data de nascimento", "Sexo", "Cargo", "CR"}, 0);
+        
+        for(int i=0;i < GerenciadorArquivos.getFuncionarios().size(); i++) {
+            
+            if (GerenciadorArquivos.getFuncionarios().get(i).getCpf().startsWith(cpf))
+            {Object linha[] = new Object[]{GerenciadorArquivos.getFuncionarios().get(i).getCpf(),
+                                        GerenciadorArquivos.getFuncionarios().get(i).getNome(),
+                                        GerenciadorArquivos.getFuncionarios().get(i).getDataNascimento(),
+                                        GerenciadorArquivos.getFuncionarios().get(i).getSexo(),
+                                        GerenciadorArquivos.getFuncionarios().get(i) instanceof Biologo ? "Biólogo" : "Veterinário",
+                                        GerenciadorArquivos.getFuncionarios().get(i).getCr()};
+            modelo.addRow(linha);
+        }
+        
+        
+        tblFuncionarios.setModel(modelo);
+        
+        
+    }}
+    
     public void carregarTabelaFuncionarios(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"CPF", "Nome", "Data de nascimento", "Sexo", "Cargo", "CR"}, 0);
         
@@ -76,6 +97,11 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
         jLabel1.setText("Filtrar por CPF:");
 
         btncPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/3844432-magnifier-search-zoom_110300.png"))); // NOI18N
+        btncPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncPesquisarActionPerformed(evt);
+            }
+        });
 
         tblFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -205,6 +231,11 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Escolha um animal da tabela", "Animal não escolhido", JOptionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_btnDeletarFuncionarioActionPerformed
+
+    private void btncPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncPesquisarActionPerformed
+        String cpf = txtNomePesquisar.getText();
+        carregarTabelaPesFuncionario(cpf);
+    }//GEN-LAST:event_btncPesquisarActionPerformed
 
     /**
      * @param args the command line arguments
