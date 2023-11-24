@@ -16,8 +16,8 @@ public class RecintoRepteis extends Recinto{
     private float umidade;
     private double areaRecinto;
 
-    public RecintoRepteis(boolean aquatico, float temperatura, float umidade, double areaRecinto, String tipoVegetação, boolean diurno, ArrayList<Animal> animais, String familia) {
-        super(tipoVegetação, diurno, animais, familia);
+    public RecintoRepteis(boolean aquatico, float temperatura, float umidade, double areaRecinto, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
+        super(tipoVegetação, diurno, idAnimaisAlocados, familia);
         this.aquatico = aquatico;
         this.temperatura = temperatura;
         this.umidade = umidade;

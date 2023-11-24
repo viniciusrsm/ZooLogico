@@ -20,6 +20,9 @@ public abstract class Funcionario implements Serializable {
     public Funcionario() {
     }
     
+    public Funcionario(String nome) {
+        this.nome = nome;
+    }
     
     public Funcionario(String nome, String cpf, String dataNascimento, String sexo, String senha) {
         this.nome = nome;

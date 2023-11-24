@@ -396,7 +396,7 @@ public class RecintoAnfibioTela extends javax.swing.JFrame {
                 recintoEscolhido.setDiurno(jrDiurno.isSelected());
             }
             else {
-                ArrayList<Animal> animais = null;
+                ArrayList<String> animais = null;
                 RecintoAnfibio recintoAnfCriado = new RecintoAnfibio(Float.parseFloat(txtUmidade.getText()), Double.parseDouble(txtVolume.getText()),
                                                        Float.parseFloat(txtTemperatura.getText()), txtVegetacao.getText(), 
                                                                 jrDiurno.isSelected(), animais, txtFamilia.getText());

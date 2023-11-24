@@ -6,8 +6,10 @@ package telas;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import zoologico.Diretor;
 import zoologico.Funcionario;
 import zoologico.GerenciadorArquivos;
+import zoologico.Veterinario;
 
 /**
  *
@@ -20,6 +22,17 @@ public class EditarPerfil extends javax.swing.JFrame {
     /**
      * Creates new form AdicionarFuncionario
      */
+    public EditarPerfil() {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+    }
+    
+    public EditarPerfil(Funcionario funcionarioEscolhido) {
+        initComponents();
+        setLocationRelativeTo(null);
+    }
+    
     public EditarPerfil(GerenciadorArquivos arquivo, Funcionario funcionarioEscolhido) {
         this.arquivo = arquivo;
         initComponents();
@@ -34,24 +47,19 @@ public class EditarPerfil extends javax.swing.JFrame {
         txtSexo.setText(funcionarioEscolhido.getSexo());
         txtCr.setText(funcionarioEscolhido.getCr());
         
+        if (funcionarioEscolhido instanceof Diretor) {
+            lblCr.setVisible(false);
+            txtCr.setVisible(false);
+        }
+        else if (funcionarioEscolhido instanceof Veterinario) lblCr.setText("CRMV"); 
+        else lblCr.setText("CRBio");
+        
         txtNome.setForeground(new Color(0, 0, 0));
         txtCpf.setForeground(new Color(0, 0, 0));
         txtDataNascimento.setForeground(new Color(0, 0, 0));
         txtSenha.setForeground(new Color(0, 0, 0));
         txtSexo.setForeground(new Color(0, 0, 0));
-        txtCr.setForeground(new Color(0, 0, 0));
-        
-    }
-    
-    public EditarPerfil(Funcionario funcionarioEscolhido) {
-        initComponents();
-        setLocationRelativeTo(null);
-    }
-    
-    public EditarPerfil() {
-        initComponents();
-        
-        setLocationRelativeTo(null);
+        txtCr.setForeground(new Color(0, 0, 0));   
     }
 
     /**
@@ -72,6 +80,12 @@ public class EditarPerfil extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         btnConfirmarPerfil = new javax.swing.JButton();
         btnCancelarPerfil = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblCr = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -166,6 +180,18 @@ public class EditarPerfil extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Nome:");
+
+        jLabel2.setText("CPF:");
+
+        jLabel3.setText("Data de nascimento:");
+
+        jLabel4.setText("Sexo:");
+
+        jLabel5.setText("Senha:");
+
+        lblCr.setText("CR:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,39 +201,61 @@ public class EditarPerfil extends javax.swing.JFrame {
                 .addComponent(jSeparator1)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtNome)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(32, 32, 32)
-                            .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(31, 31, 31)
-                            .addComponent(txtSexo, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
-                        .addComponent(txtSenha))
-                    .addComponent(txtCr, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(btnConfirmarPerfil)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancelarPerfil)
                 .addGap(67, 67, 67))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCr)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtNome)
+                        .addComponent(txtSenha)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2))
+                            .addGap(32, 32, 32)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3))
+                            .addGap(31, 31, 31)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txtSexo, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))))
+                    .addComponent(txtCr, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(lblCr)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -365,7 +413,13 @@ public class EditarPerfil extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelarPerfil;
     private javax.swing.JButton btnConfirmarPerfil;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblCr;
     private javax.swing.JTextField txtCpf;
     private javax.swing.JTextField txtCr;
     private javax.swing.JTextField txtDataNascimento;

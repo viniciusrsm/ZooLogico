@@ -18,8 +18,8 @@ public class RecintoAnfibio extends Recinto {
     public RecintoAnfibio() {
     }
 
-    public RecintoAnfibio(float umidade, double volumeTerrario, float temperaturaTerrario, String tipoVegetação, boolean diurno, ArrayList<Animal> animais, String familia) {
-        super(tipoVegetação, diurno, animais, familia);
+    public RecintoAnfibio(float umidade, double volumeTerrario, float temperaturaTerrario, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
+        super(tipoVegetação, diurno, idAnimaisAlocados, familia);
         this.umidade = umidade;
         this.volumeTerrario = volumeTerrario;
         this.temperaturaTerrario = temperaturaTerrario;

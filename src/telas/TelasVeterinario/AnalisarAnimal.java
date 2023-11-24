@@ -54,17 +54,28 @@ public class AnalisarAnimal extends javax.swing.JFrame {
     
     public void carregarTabelaAnimais(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
-        ArrayList <String> idAnimais = veterinarioEscolhido.getIdAnimaisResponsavel();
-        for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
-            if (idAnimais.contains(GerenciadorArquivos.getAnimais().get(i).getAnimalId())) {
+        
+        if (veterinarioEscolhido != null) {
+            ArrayList <String> idAnimais = veterinarioEscolhido.getIdAnimaisResponsavel();
+            for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
+                if (idAnimais.contains(GerenciadorArquivos.getAnimais().get(i).getAnimalId())) {
+                    Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+                                            GerenciadorArquivos.getAnimais().get(i).getSexo(),
+                                            GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
+                                            GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
+                    modelo.addRow(linha);
+                }
+            }
+        } else {
+            for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
                 Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
                                         GerenciadorArquivos.getAnimais().get(i).getSexo(),
                                         GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
                                         GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
                 modelo.addRow(linha);
-            }
         }
         tblAnimais.setModel(modelo);
+        }
     }
 
     /**

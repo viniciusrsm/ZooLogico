@@ -402,12 +402,15 @@ public class AdicionarAnimal extends javax.swing.JFrame {
             } else {
                 Recinto recinto = null;
                 ArrayList<String> veterinarios = new ArrayList<String>();
+                System.out.println(veterinarioCriador.getCpf());
                 veterinarios.add(veterinarioCriador.getCpf());
                 Animal animalCriado = new Animal(txtEspecie.getText(), txtNome.getText(),txtSexo.getText(),txtDataNascimento.getText(),
                     txtHistorico.getText(),txtCuidadosEspeciais.getText(),
                     btnVenenoso.isSelected(),txtTipoSanguineo.getText(),recinto, veterinarios);
+                
+                veterinarioCriador.adicionarIdAnimal(animalCriado.getAnimalId());
                 arquivo.adicionarObjeto(0, animalCriado);
-                veterinarioCriador.criarAnimal(animalCriado.getAnimalId());
+                
             }
             
             dispose();                  

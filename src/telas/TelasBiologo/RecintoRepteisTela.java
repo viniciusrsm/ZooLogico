@@ -417,7 +417,7 @@ public class RecintoRepteisTela extends javax.swing.JFrame {
                 recintoEscolhido.setAquatico(jrAquatico.isSelected());
             }
             else {
-                ArrayList<Animal> animais = null;
+                ArrayList<String> animais = null;
                 RecintoRepteis recintoRepCriado = new RecintoRepteis(jrAquatico.isSelected(), Float.parseFloat(txtTemperatura.getText()), Float.parseFloat(txtUmidade.getText()), 
                                                     Double.parseDouble(txtArea.getText()), txtVegetacao.getText(),
                                                     jrDiurno.isSelected(), animais, txtFamilia.getText());

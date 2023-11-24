@@ -17,35 +17,36 @@ public class Veterinario extends Funcionario {
     public Veterinario() {
     }
 
-    public Veterinario(String crmv, ArrayList<String> animais, String nome, String cpf, String dataNascimento, String sexo, String senha) {
+    public Veterinario(String crmv, ArrayList<String> idAnimaisResponsavel, String nome, String cpf, String dataNascimento, String sexo, String senha) {
         super(nome, cpf, dataNascimento, sexo, senha);
         this.crmv = crmv;
-        this.idAnimaisResponsavel = animais;
+        this.idAnimaisResponsavel = idAnimaisResponsavel != null ? idAnimaisResponsavel : new ArrayList<String>();
     }
     
-    public void criarAnimal(String animalId) {
-        idAnimaisResponsavel.add(animalId);
+    public void adicionarIdAnimal(String animalId) {
+        System.out.println(this.idAnimaisResponsavel);
+        this.idAnimaisResponsavel.add(animalId);
     }
     
-    public void removerAnimal(String animalId) {
-        idAnimaisResponsavel.remove(animalId);
+    public void removerIdAnimal(String animalId) {
+        this.idAnimaisResponsavel.remove(animalId);
+    }
+    
+    public ArrayList<String> getIdAnimaisResponsavel() {
+        return this.idAnimaisResponsavel;
     }
     
     @Override
     public String getCr() {
-        return crmv;
-    }
-
-    public ArrayList<String> getIdAnimaisResponsavel() {
-        return idAnimaisResponsavel;
-    }
-
-    public void setIdAnimaisResponsavel(ArrayList<String> idAnimaisResponsavel) {
-        this.idAnimaisResponsavel = idAnimaisResponsavel;
+        return this.crmv;
     }
     
-    
-    public void setCr(String cr) {
+    @Override
+     public void setCr(String cr) {
         this.crmv = cr;
     };
+    
+    
+    
+   
 }

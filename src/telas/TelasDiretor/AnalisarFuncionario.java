@@ -17,14 +17,8 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
     /**
      * Creates new form AnalisarFuncionario
+     * @param arquivo
      */
-    public AnalisarFuncionario(GerenciadorArquivos arquivo) {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-        carregarTabelaFuncionarios();
-       
-    }
     
     public AnalisarFuncionario() {
         initComponents();
@@ -34,10 +28,19 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
        
     }
     
+    public AnalisarFuncionario(GerenciadorArquivos arquivo) {
+        this.arquivo = arquivo;
+        
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        carregarTabelaFuncionarios(); 
+    }
+    
     public void carregarTabelaPesFuncionario(String cpf){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"CPF", "Nome", "Data de nascimento", "Sexo", "Cargo", "CR"}, 0);
         
-        for(int i=0;i < GerenciadorArquivos.getFuncionarios().size(); i++) {
+        for(int i=1;i < GerenciadorArquivos.getFuncionarios().size(); i++) {
             
             if (GerenciadorArquivos.getFuncionarios().get(i).getCpf().startsWith(cpf))
             {Object linha[] = new Object[]{GerenciadorArquivos.getFuncionarios().get(i).getCpf(),
@@ -58,7 +61,7 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
     public void carregarTabelaFuncionarios(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"CPF", "Nome", "Data de nascimento", "Sexo", "Cargo", "CR"}, 0);
         
-        for(int i=0;i < GerenciadorArquivos.getFuncionarios().size(); i++) {
+        for(int i=1;i < GerenciadorArquivos.getFuncionarios().size(); i++) {
             
             Object linha[] = new Object[]{GerenciadorArquivos.getFuncionarios().get(i).getCpf(),
                                         GerenciadorArquivos.getFuncionarios().get(i).getNome(),
@@ -207,7 +210,7 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
 
     private void btnEditarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarFuncionarioActionPerformed
         if (tblFuncionarios.getSelectedRowCount() != 0) {
-            int index = tblFuncionarios.getSelectedRow();
+            int index = tblFuncionarios.getSelectedRow() + 1;
             new AdicionarFuncionario(arquivo, index).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Escolha um funcionário da tabela", "Funcionário não escolhido", JOptionPane.PLAIN_MESSAGE);
@@ -216,10 +219,10 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
 
     private void btnDeletarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarFuncionarioActionPerformed
         if (tblFuncionarios.getSelectedRowCount() != 0) {
-            int index = tblFuncionarios.getSelectedRow();
+            int index = tblFuncionarios.getSelectedRow() + 1;
         
-            if (index>=0 && index<GerenciadorArquivos.getAnimais().size()) {
-                arquivo.removerObjeto(1, GerenciadorArquivos.getAnimais().get(index));
+            if (index>=0 && index<GerenciadorArquivos.getFuncionarios().size()) {
+                arquivo.removerObjeto(1, GerenciadorArquivos.getFuncionarios().get(index));
                 carregarTabelaFuncionarios();
                 
                 

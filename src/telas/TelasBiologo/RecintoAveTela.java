@@ -345,7 +345,7 @@ public class RecintoAveTela extends javax.swing.JFrame {
                     recintoEscolhido.setPossuiPoleiro(jrPoleiro.isSelected());
                 }
                 else {
-                    ArrayList<Animal> animais = null;
+                    ArrayList<String> animais = null;
                     RecintoAve recintoAveCriado = new RecintoAve(jrPoleiro.isSelected(), Double.parseDouble(txtVolume.getText()),
                                                           txtVegetacao.getText(), jrDiurno.isSelected(), animais, txtFamilia.getText());
                     arquivo.adicionarObjeto(2, recintoAveCriado);

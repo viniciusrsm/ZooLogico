@@ -10,6 +10,7 @@ import telas.EditarPerfil;
 import telas.TelasBiologo.AnalisarRecinto;
 import telas.TelasVeterinario.AnalisarAnimal;
 import zoologico.Diretor;
+import zoologico.Funcionario;
 import zoologico.GerenciadorArquivos;
 
 /**
@@ -19,42 +20,12 @@ import zoologico.GerenciadorArquivos;
 public class DiretorTela extends javax.swing.JFrame {
 
     GerenciadorArquivos arquivo;
+    Diretor diretorEscolhido;
     /**
      * Creates new form Diretor
      * @param arquivo
+     * @param diretorEscolhido
      */
-    public DiretorTela(GerenciadorArquivos arquivo, Diretor diretorEscolhido) {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-        
-        this.arquivo = arquivo;
-        
-        addWindowListener(new WindowAdapter(){
-                public void windowClosing(WindowEvent e){
-                    try {
-                        arquivo.exportarArquivos();
-                    } catch (Exception ex) {}
-                }
-            });
-    }
-    
-    public DiretorTela(GerenciadorArquivos arquivo) {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-        
-        this.arquivo = arquivo;
-        
-        addWindowListener(new WindowAdapter(){
-                public void windowClosing(WindowEvent e){
-                    try {
-                        arquivo.exportarArquivos();
-                    } catch (Exception ex) {}
-                }
-            });
-    }
-    
     public DiretorTela() {
         initComponents();
         
@@ -68,7 +39,26 @@ public class DiretorTela extends javax.swing.JFrame {
                 }
             });
     }
+    
+    public DiretorTela(GerenciadorArquivos arquivo) {
+        this.arquivo = arquivo;
+        this.diretorEscolhido = (Diretor) GerenciadorArquivos.getFuncionarios().get(0);
+        
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        lblNome.setText(diretorEscolhido.getNome());
 
+        
+        addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e){
+                    try {
+                        arquivo.exportarArquivos();
+                    } catch (Exception ex) {}
+                }
+            });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,7 +74,7 @@ public class DiretorTela extends javax.swing.JFrame {
         btnRecinto = new javax.swing.JButton();
         btnAnimais = new javax.swing.JButton();
         btnFuncionario = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        lblNome = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,8 +128,8 @@ public class DiretorTela extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Sitka Text", 1, 18)); // NOI18N
-        jLabel3.setText("(nome)");
+        lblNome.setFont(new java.awt.Font("Sitka Text", 1, 18)); // NOI18N
+        lblNome.setText("(nome)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,7 +148,7 @@ public class DiretorTela extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)))
+                                .addComponent(lblNome)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,7 +164,7 @@ public class DiretorTela extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3))
+                            .addComponent(lblNome))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2))
                     .addComponent(btnEditarPerfil))
@@ -202,7 +192,7 @@ public class DiretorTela extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnimaisActionPerformed
 
     private void btnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPerfilActionPerformed
-        new EditarPerfil().setVisible(true);
+        new EditarPerfil(arquivo, (Funcionario) diretorEscolhido).setVisible(true);
     }//GEN-LAST:event_btnEditarPerfilActionPerformed
 
     /**
@@ -243,6 +233,6 @@ public class DiretorTela extends javax.swing.JFrame {
     private javax.swing.JButton btnRecinto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblNome;
     // End of variables declaration//GEN-END:variables
 }

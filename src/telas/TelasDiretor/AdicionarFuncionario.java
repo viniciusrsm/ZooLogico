@@ -31,7 +31,18 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
     boolean editor = false;
     Funcionario funcionarioEscolhido;
     
+    public AdicionarFuncionario() {
+        initComponents();
+        flag = false;
+        btnDelResponsabilidades.setEnabled(false);
+        btnAddResponsabilidade.setEnabled(false);
+        
+        setLocationRelativeTo(null);
+    }
+    
     public AdicionarFuncionario(GerenciadorArquivos arquivo, int indexLista) {
+        this.arquivo = arquivo;
+        
         initComponents();
         flag = false;
         btnDelResponsabilidades.setEnabled(false);
@@ -41,8 +52,6 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
         editor = true;
 
         setLocationRelativeTo(null);
-
-        this.arquivo = arquivo;
         
         txtNome.setText(funcionarioEscolhido.getNome());
         txtCpf.setText(funcionarioEscolhido.getCpf());
@@ -50,6 +59,18 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
         txtSexo.setText(funcionarioEscolhido.getSexo());
         txtDataNascimento.setText(funcionarioEscolhido.getDataNascimento());
         txtSenha.setText(funcionarioEscolhido.getSenha());
+        
+        if (funcionarioEscolhido instanceof Biologo) {
+            jrbBiologo.setSelected(true);
+            carregarTabelaRecintos();
+        } else {
+            jrbVeterinario.setSelected(true);
+            carregarTabelaAnimais();
+        }
+        
+        btnAddResponsabilidade.setEnabled(true);
+        jrbBiologo.setEnabled(false);
+        jrbVeterinario.setEnabled(false);
         
         txtNome.setForeground(new Color(0, 0, 0));
         txtCpf.setForeground(new Color(0, 0, 0));
@@ -60,17 +81,8 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
     }
     
     public AdicionarFuncionario(GerenciadorArquivos arquivo) {
-        initComponents();
-        flag = false;
-        btnDelResponsabilidades.setEnabled(false);
-        btnAddResponsabilidade.setEnabled(false);
-        
-        setLocationRelativeTo(null);
-        
         this.arquivo = arquivo;
-    }
-    
-    public AdicionarFuncionario() {
+        
         initComponents();
         flag = false;
         btnDelResponsabilidades.setEnabled(false);
@@ -144,8 +156,8 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
         jrbBiologo = new javax.swing.JRadioButton();
         txtCr = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
-        btnConfAnimal = new javax.swing.JButton();
-        btnCancAnimal = new javax.swing.JButton();
+        btnConfFuncionario = new javax.swing.JButton();
+        btnCancFuncionario = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResponsabilidades = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -248,23 +260,23 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
             }
         });
 
-        btnConfAnimal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1904674_accept_approved_check_checked_confirm_icon.png"))); // NOI18N
-        btnConfAnimal.setText("CONFIRMAR");
-        btnConfAnimal.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnConfAnimal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnConfAnimal.addActionListener(new java.awt.event.ActionListener() {
+        btnConfFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1904674_accept_approved_check_checked_confirm_icon.png"))); // NOI18N
+        btnConfFuncionario.setText("CONFIRMAR");
+        btnConfFuncionario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnConfFuncionario.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnConfFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnConfAnimalActionPerformed(evt);
+                btnConfFuncionarioActionPerformed(evt);
             }
         });
 
-        btnCancAnimal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1904654_cancel_close_cross_delete_reject_icon.png"))); // NOI18N
-        btnCancAnimal.setText("CANCELAR");
-        btnCancAnimal.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnCancAnimal.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnCancAnimal.addActionListener(new java.awt.event.ActionListener() {
+        btnCancFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/1904654_cancel_close_cross_delete_reject_icon.png"))); // NOI18N
+        btnCancFuncionario.setText("CANCELAR");
+        btnCancFuncionario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCancFuncionario.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCancFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancAnimalActionPerformed(evt);
+                btnCancFuncionarioActionPerformed(evt);
             }
         });
 
@@ -306,9 +318,9 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(38, 38, 38)
-                                .addComponent(btnConfAnimal)
+                                .addComponent(btnConfFuncionario)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnCancAnimal)
+                                .addComponent(btnCancFuncionario)
                                 .addGap(55, 55, 55))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
@@ -372,8 +384,8 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnConfAnimal))
-                            .addComponent(btnCancAnimal))
+                                .addComponent(btnConfFuncionario))
+                            .addComponent(btnCancFuncionario))
                         .addGap(51, 51, 51))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -509,24 +521,36 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
        
     }//GEN-LAST:event_btnDelResponsabilidadesActionPerformed
 
-    private void btnCancAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancAnimalActionPerformed
+    private void btnCancFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancFuncionarioActionPerformed
         dispose();
-    }//GEN-LAST:event_btnCancAnimalActionPerformed
+    }//GEN-LAST:event_btnCancFuncionarioActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
 
-    private void btnConfAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfAnimalActionPerformed
+    private void btnConfFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfFuncionarioActionPerformed
         if (txtCpf.getText().equals("CPF") || txtNome.getText().equals("Nome") || txtDataNascimento.getText().equals("Data de nascimento") || 
                 txtSenha.getText().equals("Senha") || txtSexo.getText().equals("Sexo") || txtCr.getText().equals("CR")) 
             {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", JOptionPane.PLAIN_MESSAGE);
         } else {
+            boolean cpfExiste = true;
+            for (int i=0; i < GerenciadorArquivos.getFuncionarios().size(); i++) {
+                System.out.println("mano 2222222222");
+                if (txtCpf.getText().equals(GerenciadorArquivos.getFuncionarios().get(i).getCpf())) {
+                    System.out.println("mano sladasudawh");
+                    JOptionPane.showMessageDialog(null, "Este CPF já está cadastrado", "CPF já cadastrado", JOptionPane.PLAIN_MESSAGE);
+                    cpfExiste = false;
+                    break;
+                }
+            }
             
+            System.out.println(cpfExiste);
             
             // se estiver editando um animal já criado
-            if (editor) {
+            if (cpfExiste) {
+                if (editor) {
                 funcionarioEscolhido.setNome(txtNome.getText());
                 funcionarioEscolhido.setCpf(txtCpf.getText());
                 funcionarioEscolhido.setDataNascimento(txtDataNascimento.getText());
@@ -534,26 +558,27 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                 funcionarioEscolhido.setSexo(txtSexo.getText());
                 funcionarioEscolhido.setCr(txtCr.getText());
             
-            // se estiver criando um animal
-            } else {
-                //Recinto recinto = null;
-                if (jrbBiologo.isSelected()) {
-                    ArrayList<Recinto> recintos = null;
-                    Biologo biologoCriado = new Biologo(txtCr.getText(), recintos, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
-                    
-                    arquivo.adicionarObjeto(1, biologoCriado);
+                // se estiver criando um animal
                 } else {
-                    ArrayList<String> idAnimais = null;
-                    Veterinario vetCriado = new Veterinario(txtCr.getText(), idAnimais, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
-                    
-                    arquivo.adicionarObjeto(1, vetCriado);
-                }
-                
-            //}
+                    //Recinto recinto = null;
+                    if (jrbBiologo.isSelected()) {
+                        ArrayList<Recinto> recintos = new ArrayList<Recinto>();
+                        Biologo biologoCriado = new Biologo(txtCr.getText(), recintos, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
 
+                        arquivo.adicionarObjeto(1, biologoCriado);
+                    } else {
+                        ArrayList<String> idAnimais = new ArrayList<String>();
+                        Veterinario vetCriado = new Veterinario(txtCr.getText(), idAnimais, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
+
+                        arquivo.adicionarObjeto(1, vetCriado);
+                    }
+                }
+                dispose();
             }
+            
+            
         }
-    }//GEN-LAST:event_btnConfAnimalActionPerformed
+    }//GEN-LAST:event_btnConfFuncionarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -587,8 +612,8 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddResponsabilidade;
-    private javax.swing.JButton btnCancAnimal;
-    private javax.swing.JButton btnConfAnimal;
+    private javax.swing.JButton btnCancFuncionario;
+    private javax.swing.JButton btnConfFuncionario;
     private javax.swing.JButton btnDelResponsabilidades;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;

@@ -37,8 +37,6 @@ public class GerenciadorArquivos {
         GerenciadorArquivos.inputFileRecinto = inputFileRecinto;
     }
     
-    
-    
     public void adicionarObjeto(int escolheFile, Object obj) {
         switch (escolheFile) {
             case 0:
@@ -73,13 +71,7 @@ public class GerenciadorArquivos {
     }
     
     public void importarArquivos() {
-        
-       // FileInputStream fis = new FileInputStream("outputFile");
-        //ObjectInputStream input = new ObjectInputStream(new FileInputStream("outputFile"));
-        
-        //input = new FileInputStream("./arquivos/animais.txt");
         Object obj1 = null;
-        
         
         try {
             while((obj1 = inputFileAnimal.readObject()) != null){
@@ -109,7 +101,6 @@ public class GerenciadorArquivos {
         }
         catch (FileNotFoundException e) {} 
         catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
         }
         
         try {
@@ -118,9 +109,12 @@ public class GerenciadorArquivos {
             outputFileRecinto = new ObjectOutputStream(new FileOutputStream("./arquivos/recintos.txt"));
         } catch (IOException e) {}
         
-        System.out.println(animais);
-        System.out.println(funcionarios);
-        System.out.println(recintos);
+        //caso não tenha nenhum funcionário adiciona um diretor admin
+        if (funcionarios.isEmpty()) {
+            System.out.println("fdsdsdsds");
+            Diretor dir = new Diretor("admin", "", "", "", "");
+            funcionarios.add((Funcionario) dir);
+        }
     }
     
     public void exportarArquivos() throws Exception {
@@ -149,8 +143,4 @@ public class GerenciadorArquivos {
     public static ArrayList<Recinto> getRecintos() {
         return recintos;
     }
-    
-    
-    
-    
 }

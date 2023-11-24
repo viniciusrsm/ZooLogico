@@ -205,19 +205,15 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        if ("admin".equals(txtCpf.getText())) {
+        Diretor dir = (Diretor) GerenciadorArquivos.getFuncionarios().get(0);
+        if (dir.getNome().equals("admin")) {
             new DiretorTela(arquivo).setVisible(true); this.dispose();
         }
         for (int i=0; i < GerenciadorArquivos.getFuncionarios().size(); i++) {
             Funcionario funcionarioEscolhido =  GerenciadorArquivos.getFuncionarios().get(i);
             
-            System.out.println(funcionarioEscolhido.getCpf().equals(txtCpf.getText()));
-            System.out.println(funcionarioEscolhido.getSenha().equals(String.valueOf(txtpSenha.getPassword())));
-            System.out.println(funcionarioEscolhido.getCpf());
-            System.out.println(funcionarioEscolhido.getSenha());
             if (funcionarioEscolhido.getCpf().equals(txtCpf.getText()) && funcionarioEscolhido.getSenha().equals(String.valueOf(txtpSenha.getPassword()))) {
-                System.out.println(funcionarioEscolhido instanceof Veterinario);
-                if (funcionarioEscolhido instanceof Diretor) new DiretorTela(arquivo, (Diretor) funcionarioEscolhido).setVisible(true); this.dispose();
+                if (funcionarioEscolhido instanceof Diretor) new DiretorTela(arquivo).setVisible(true); this.dispose();
                 if (funcionarioEscolhido instanceof Veterinario) new VeterinarioTela(arquivo, (Veterinario) funcionarioEscolhido).setVisible(true); this.dispose();
                 if (funcionarioEscolhido instanceof Biologo) new BiologoTela(arquivo, (Biologo) funcionarioEscolhido).setVisible(true); this.dispose();
                 

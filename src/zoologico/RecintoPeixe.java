@@ -16,8 +16,8 @@ public class RecintoPeixe extends Recinto {
     private float phAgua;
     private boolean osseo;
 
-    public RecintoPeixe(double volumeAquario, float temperaturaAgua, float phAgua, boolean osseo, String tipoVegetação, boolean diurno, ArrayList<Animal> animais, String familia) {
-        super(tipoVegetação, diurno, animais, familia);
+    public RecintoPeixe(double volumeAquario, float temperaturaAgua, float phAgua, boolean osseo, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
+        super(tipoVegetação, diurno, idAnimaisAlocados, familia);
         this.volumeAquario = volumeAquario;
         this.temperaturaAgua = temperaturaAgua;
         this.phAgua = phAgua;

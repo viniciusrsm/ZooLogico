@@ -18,22 +18,31 @@ public abstract class Recinto implements Serializable {
     protected String tipoVegetação;
     protected boolean diurno;
     
-    protected ArrayList<Animal> animaisAlocados;
+    protected ArrayList<String> idAnimaisAlocados;
+    
+    public Recinto() {}
 
     public Recinto(String tipoVegetação, boolean diurno) {
         this.tipoVegetação = tipoVegetação;
         this.diurno = diurno;
     }
     
-    public Recinto(String tipoVegetação, boolean diurno, ArrayList<Animal> animais, String familia) {
+    public Recinto(String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
         this.tipoVegetação = tipoVegetação;
         this.diurno = diurno;
-        this.animaisAlocados = animais;
+        this.idAnimaisAlocados = idAnimaisAlocados;
         this.familia = familia;
     }
 
-    public Recinto() {
+    public String getRecintoId() {
+        return recintoId;
     }
+
+    public ArrayList<String> getAnimaisAlocados() {
+        return idAnimaisAlocados;
+    }
+
+    
 
     public String getTipoVegetação() {
         return tipoVegetação;
@@ -50,22 +59,13 @@ public abstract class Recinto implements Serializable {
     public void setDiurno(boolean diurno) {
         this.diurno = diurno;
     }
-
-    public ArrayList<Animal> getAnimais() {
-        return animaisAlocados;
-    }
-
-    public void setAnimaisAlocados(ArrayList<Animal> animaisAlocados) {
-        this.animaisAlocados = animaisAlocados;
+    
+    public void alocarAnimal(String idAnimal) {
+        idAnimaisAlocados.add(idAnimal);
     }
     
-    
-    public void alocarAnimal(Animal animal) {
-        animaisAlocados.add(animal);
-    }
-    
-    public void desalocarAnimal(Animal animal) {
-        animaisAlocados.add(animal);
+    public void desalocarAnimal(String idAnimal) {
+        idAnimaisAlocados.remove(idAnimal);
     }
 
     public String getFamilia() {

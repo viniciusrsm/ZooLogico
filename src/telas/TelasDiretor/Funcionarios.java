@@ -16,11 +16,11 @@ public class Funcionarios extends javax.swing.JFrame {
      * Creates new form Funcionarios
      */
     public Funcionarios(GerenciadorArquivos arquivo) {
+        this.arquivo = arquivo;
+        
         initComponents();
         
         setLocationRelativeTo(null);
-        
-        this.arquivo = arquivo;
     }
     
     public Funcionarios() {

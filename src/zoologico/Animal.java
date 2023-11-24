@@ -47,10 +47,6 @@ public class Animal implements Serializable {
         return AnimalId;
     }
 
-    public void setAnimalId(String AnimalId) {
-        this.AnimalId = AnimalId;
-    }
-
     public ArrayList<String> getVeterinariosResponsaveis() {
         return CpfVeterinariosResponsaveis;
     }
@@ -58,8 +54,6 @@ public class Animal implements Serializable {
     public void setVeterinariosResponsaveis(ArrayList<String> veterinariosResponsaveis) {
         this.CpfVeterinariosResponsaveis = veterinariosResponsaveis;
     }
-    
-    
 
     public Recinto getRecinto() {
         return recinto;

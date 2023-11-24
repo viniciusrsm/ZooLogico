@@ -409,7 +409,7 @@ public class RecintoPeixeTela extends javax.swing.JFrame {
                 recintoEscolhido.setOsseo(jrOsseo.isSelected());
             }
             else {
-                ArrayList<Animal> animais = null;
+                ArrayList<String> animais = null;
                 RecintoPeixe recintoPeixeCriado = new RecintoPeixe(Double.parseDouble(txtVolume.getText()), Float.parseFloat(txtTemperatura.getText()), Float.parseFloat(txtPh.getText()), 
                                                     jrOsseo.isSelected(), txtVegetacao.getText(),
                                                     jrDiurno.isSelected(), animais, txtFamilia.getText());

@@ -361,7 +361,7 @@ public class RecintoMamiferoTela extends javax.swing.JFrame {
                 recintoEscolhido.setPossuiPoleiro(jrPoleiro.isSelected());
             }
             else {
-                ArrayList<Animal> animais = null;
+                ArrayList<String> animais = null;
                 RecintoMamifero recintoMamCriado = new RecintoMamifero(jrPoleiro.isSelected(), jrAquatico.isSelected(), jrArboricola.isSelected(), 
                                                     Double.parseDouble(txtArea.getText()), txtVegetacao.getText(),
                                                     jrDiurno.isSelected(), animais, txtFamilia.getText());

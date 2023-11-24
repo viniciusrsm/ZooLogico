@@ -16,8 +16,8 @@ public class RecintoMamifero extends Recinto {
     private boolean arboricolas;
     private double areaTotal;
 
-    public RecintoMamifero(boolean possuiPoleiro, boolean aquatico, boolean arboricolas, double areaTotal, String tipoVegetação, boolean diurno, ArrayList<Animal> animais, String familia) {
-        super(tipoVegetação, diurno, animais, familia);
+    public RecintoMamifero(boolean possuiPoleiro, boolean aquatico, boolean arboricolas, double areaTotal, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
+        super(tipoVegetação, diurno, idAnimaisAlocados, familia);
         this.possuiPoleiro = possuiPoleiro;
         this.aquatico = aquatico;
         this.arboricolas = arboricolas;
