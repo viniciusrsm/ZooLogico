@@ -21,6 +21,7 @@ public class VeterinarioTela extends javax.swing.JFrame {
      * @param arquivo
      */
     GerenciadorArquivos arquivo;
+    Veterinario veterinarioEscolhido;
     
     public VeterinarioTela(GerenciadorArquivos arquivo, Veterinario veterinarioEscolhido) {
         initComponents();
@@ -29,8 +30,8 @@ public class VeterinarioTela extends javax.swing.JFrame {
         
         this.arquivo = arquivo;
         
+        this.veterinarioEscolhido = veterinarioEscolhido;
         txtNome.setText(veterinarioEscolhido.getNome());
-        
         
         addWindowListener(new WindowAdapter(){
                 public void windowClosing(WindowEvent e){
@@ -158,11 +159,11 @@ public class VeterinarioTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAdicionarAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarAnimalActionPerformed
-        new AdicionarAnimal(arquivo).setVisible(true);
+        new AdicionarAnimal(arquivo, veterinarioEscolhido).setVisible(true);
     }//GEN-LAST:event_btnAdicionarAnimalActionPerformed
 
     private void btnAnalisarAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisarAnimalActionPerformed
-        new AnalisarAnimal(arquivo).setVisible(true);
+        new AnalisarAnimal(arquivo, veterinarioEscolhido).setVisible(true);
     }//GEN-LAST:event_btnAnalisarAnimalActionPerformed
 
     private void btnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPerfilActionPerformed

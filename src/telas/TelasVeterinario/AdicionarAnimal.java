@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,6 +20,7 @@ import telas.TelasDiretor.EscolheRecinto;
 import zoologico.Animal;
 import zoologico.GerenciadorArquivos;
 import zoologico.Recinto;
+import zoologico.Veterinario;
 
 /**
  *
@@ -26,16 +28,24 @@ import zoologico.Recinto;
  */
 public class AdicionarAnimal extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
+    Veterinario veterinarioCriador;
     
     // atributos para edição de um animal escolhido
     boolean editor = false;
     Animal animalEscolhido = null;
     
+    public AdicionarAnimal() {
+        initComponents();        
+        
+        setLocationRelativeTo(null);
+    }
+    
     // construtor para a criação de um animal
-    public AdicionarAnimal(GerenciadorArquivos arquivo) {
+    public AdicionarAnimal(GerenciadorArquivos arquivo, Veterinario veterinarioCriador) {
         this.arquivo = arquivo;
         initComponents();
         setLocationRelativeTo(null);
+        this.veterinarioCriador = veterinarioCriador;
     }
     
     // construtor para a edição de um animal escolhido
@@ -69,13 +79,7 @@ public class AdicionarAnimal extends javax.swing.JFrame {
     /**
      * Creates new form AdicionarAnimal
      */
-    public AdicionarAnimal() {
-        initComponents();        
-        
-        setLocationRelativeTo(null);
-        
-        
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -397,10 +401,13 @@ public class AdicionarAnimal extends javax.swing.JFrame {
             // se estiver criando um animal
             } else {
                 Recinto recinto = null;
+                ArrayList<String> veterinarios = new ArrayList<String>();
+                veterinarios.add(veterinarioCriador.getCpf());
                 Animal animalCriado = new Animal(txtEspecie.getText(), txtNome.getText(),txtSexo.getText(),txtDataNascimento.getText(),
                     txtHistorico.getText(),txtCuidadosEspeciais.getText(),
-                    btnVenenoso.isSelected(),txtTipoSanguineo.getText(),recinto, "");
+                    btnVenenoso.isSelected(),txtTipoSanguineo.getText(),recinto, veterinarios);
                 arquivo.adicionarObjeto(0, animalCriado);
+                veterinarioCriador.criarAnimal(animalCriado.getAnimalId());
             }
             
             dispose();                  

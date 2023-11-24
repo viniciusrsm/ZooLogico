@@ -6,11 +6,13 @@ package telas.TelasVeterinario;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import zoologico.GerenciadorArquivos;
+import zoologico.Veterinario;
 
 /**
  *
@@ -22,6 +24,14 @@ public class AnalisarAnimal extends javax.swing.JFrame {
      * Creates new form EditarAnimal
      */
     GerenciadorArquivos arquivo;
+    Veterinario veterinarioEscolhido;
+    
+    public AnalisarAnimal() {
+        initComponents();
+        carregarTabelaAnimais();
+        
+        setLocationRelativeTo(null);   
+    }
     
     public AnalisarAnimal(GerenciadorArquivos arquivo) {
         this.arquivo = arquivo;
@@ -30,30 +40,30 @@ public class AnalisarAnimal extends javax.swing.JFrame {
         carregarTabelaAnimais();
         
         setLocationRelativeTo(null);
-        
-        
     }
     
-    public AnalisarAnimal() {
+    public AnalisarAnimal(GerenciadorArquivos arquivo, Veterinario veterinarioEscolhido) {
+        this.arquivo = arquivo;
+        this.veterinarioEscolhido = veterinarioEscolhido;
+        
         initComponents();
         carregarTabelaAnimais();
         
         setLocationRelativeTo(null);
-        
-        
     }
     
     public void carregarTabelaAnimais(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
-        
+        ArrayList <String> idAnimais = veterinarioEscolhido.getIdAnimaisResponsavel();
         for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
-            Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+            if (idAnimais.contains(GerenciadorArquivos.getAnimais().get(i).getAnimalId())) {
+                Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
                                         GerenciadorArquivos.getAnimais().get(i).getSexo(),
                                         GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
                                         GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
-            modelo.addRow(linha);
+                modelo.addRow(linha);
+            }
         }
-        
         tblAnimais.setModel(modelo);
     }
 

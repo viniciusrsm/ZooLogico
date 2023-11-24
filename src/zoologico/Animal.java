@@ -5,12 +5,15 @@
 package zoologico;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
  * @author Vinicius
  */
 public class Animal implements Serializable {
+    String AnimalId = UUID.randomUUID().toString();
     private String especie;
     private String nome;
     private String sexo;
@@ -21,13 +24,13 @@ public class Animal implements Serializable {
     private String tipoSanguineo;
     
     private Recinto recinto;
-    private String cpfVeterinario;
+    private ArrayList<String> CpfVeterinariosResponsaveis;
 
     public Animal() {
     }
 
     public Animal(String especie, String nome, String sexo, String dataNascimento, 
-            String historico, String cuidadosEspeciais, boolean venenoso, String tipoSanguineo, Recinto recinto, String cpfVeterinario) {
+            String historico, String cuidadosEspeciais, boolean venenoso, String tipoSanguineo, Recinto recinto, ArrayList<String> CpfVeterinariosResponsaveis) {
         this.especie = especie;
         this.nome = nome;
         this.sexo = sexo;
@@ -37,8 +40,26 @@ public class Animal implements Serializable {
         this.venenoso = venenoso;
         this.tipoSanguineo = tipoSanguineo;
         this.recinto = recinto;
-        this.cpfVeterinario = cpfVeterinario;
+        this.CpfVeterinariosResponsaveis = CpfVeterinariosResponsaveis;
     }
+
+    public String getAnimalId() {
+        return AnimalId;
+    }
+
+    public void setAnimalId(String AnimalId) {
+        this.AnimalId = AnimalId;
+    }
+
+    public ArrayList<String> getVeterinariosResponsaveis() {
+        return CpfVeterinariosResponsaveis;
+    }
+
+    public void setVeterinariosResponsaveis(ArrayList<String> veterinariosResponsaveis) {
+        this.CpfVeterinariosResponsaveis = veterinariosResponsaveis;
+    }
+    
+    
 
     public Recinto getRecinto() {
         return recinto;

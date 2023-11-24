@@ -6,12 +6,14 @@ package zoologico;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
  * @author Vinicius
  */
 public abstract class Recinto implements Serializable {
+    String recintoId = UUID.randomUUID().toString();
     protected String familia;
     protected String tipoVegetação;
     protected boolean diurno;

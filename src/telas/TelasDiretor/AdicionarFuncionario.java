@@ -546,8 +546,8 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                     
                     arquivo.adicionarObjeto(1, biologoCriado);
                 } else {
-                    ArrayList<Animal> animais = null;
-                    Veterinario vetCriado = new Veterinario(txtCr.getText(), animais, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
+                    ArrayList<String> idAnimais = null;
+                    Veterinario vetCriado = new Veterinario(txtCr.getText(), idAnimais, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
                     
                     arquivo.adicionarObjeto(1, vetCriado);
                 }

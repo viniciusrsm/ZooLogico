@@ -12,23 +12,23 @@ import java.util.ArrayList;
  */
 public class Veterinario extends Funcionario {
     private String crmv;
-    private ArrayList<Animal> animaisResponsavel;
+    private ArrayList<String> idAnimaisResponsavel;
 
     public Veterinario() {
     }
 
-    public Veterinario(String crmv, ArrayList<Animal> animais, String nome, String cpf, String dataNascimento, String sexo, String senha) {
+    public Veterinario(String crmv, ArrayList<String> animais, String nome, String cpf, String dataNascimento, String sexo, String senha) {
         super(nome, cpf, dataNascimento, sexo, senha);
         this.crmv = crmv;
-        this.animaisResponsavel = animais;
+        this.idAnimaisResponsavel = animais;
     }
     
-    public void criarAnimal(Animal animal) {
-        animaisResponsavel.add(animal);
+    public void criarAnimal(String animalId) {
+        idAnimaisResponsavel.add(animalId);
     }
     
-    public void removerAnimal(Animal animal) {
-        animaisResponsavel.remove(animal);
+    public void removerAnimal(String animalId) {
+        idAnimaisResponsavel.remove(animalId);
     }
 
     public String getCrmv() {
@@ -43,5 +43,14 @@ public class Veterinario extends Funcionario {
     public String getCr() {
         return crmv;
     }
+
+    public ArrayList<String> getIdAnimaisResponsavel() {
+        return idAnimaisResponsavel;
+    }
+
+    public void setIdAnimaisResponsavel(ArrayList<String> idAnimaisResponsavel) {
+        this.idAnimaisResponsavel = idAnimaisResponsavel;
+    }
+    
     
 }
