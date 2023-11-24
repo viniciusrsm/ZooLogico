@@ -6,16 +6,48 @@ package telas;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import zoologico.Funcionario;
+import zoologico.GerenciadorArquivos;
 
 /**
  *
  * @author gugas
  */
 public class EditarPerfil extends javax.swing.JFrame {
-
+    GerenciadorArquivos arquivo;
+    Funcionario funcionarioEscolhido;
+    
     /**
      * Creates new form AdicionarFuncionario
      */
+    public EditarPerfil(GerenciadorArquivos arquivo, Funcionario funcionarioEscolhido) {
+        this.arquivo = arquivo;
+        initComponents();
+        setLocationRelativeTo(null);
+        
+        this.funcionarioEscolhido = funcionarioEscolhido;
+        
+        txtNome.setText(funcionarioEscolhido.getNome());
+        txtCpf.setText(funcionarioEscolhido.getCpf());
+        txtDataNascimento.setText(funcionarioEscolhido.getDataNascimento());
+        txtSenha.setText(funcionarioEscolhido.getSenha());
+        txtSexo.setText(funcionarioEscolhido.getSexo());
+        txtCr.setText(funcionarioEscolhido.getCr());
+        
+        txtNome.setForeground(new Color(0, 0, 0));
+        txtCpf.setForeground(new Color(0, 0, 0));
+        txtDataNascimento.setForeground(new Color(0, 0, 0));
+        txtSenha.setForeground(new Color(0, 0, 0));
+        txtSexo.setForeground(new Color(0, 0, 0));
+        txtCr.setForeground(new Color(0, 0, 0));
+        
+    }
+    
+    public EditarPerfil(Funcionario funcionarioEscolhido) {
+        initComponents();
+        setLocationRelativeTo(null);
+    }
+    
     public EditarPerfil() {
         initComponents();
         
@@ -288,6 +320,13 @@ public class EditarPerfil extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", JOptionPane.PLAIN_MESSAGE);
         } else {
+            funcionarioEscolhido.setNome(txtNome.getText());
+            funcionarioEscolhido.setCpf(txtCpf.getText());
+            funcionarioEscolhido.setDataNascimento(txtDataNascimento.getText());
+            funcionarioEscolhido.setSenha(txtSenha.getText());
+            funcionarioEscolhido.setSexo(txtSexo.getText());
+            funcionarioEscolhido.setCr(txtCr.getText());
+            
             dispose();
         }
     }//GEN-LAST:event_btnConfirmarPerfilActionPerformed

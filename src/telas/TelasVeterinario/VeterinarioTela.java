@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import telas.EditarPerfil;
 import zoologico.GerenciadorArquivos;
 import zoologico.Veterinario;
+import zoologico.Funcionario;
 
 /**
  *
@@ -21,6 +22,7 @@ public class VeterinarioTela extends javax.swing.JFrame {
      * @param arquivo
      */
     GerenciadorArquivos arquivo;
+    Veterinario veterinarioEscolhido;
     
     public VeterinarioTela(GerenciadorArquivos arquivo, Veterinario veterinarioEscolhido) {
         initComponents();
@@ -28,6 +30,7 @@ public class VeterinarioTela extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         this.arquivo = arquivo;
+        this.veterinarioEscolhido = veterinarioEscolhido;
         
         txtNome.setText(veterinarioEscolhido.getNome());
         
@@ -166,7 +169,7 @@ public class VeterinarioTela extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnalisarAnimalActionPerformed
 
     private void btnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPerfilActionPerformed
-        new EditarPerfil().setVisible(true);
+        new EditarPerfil(arquivo, (Funcionario) veterinarioEscolhido).setVisible(true);
     }//GEN-LAST:event_btnEditarPerfilActionPerformed
 
     /**

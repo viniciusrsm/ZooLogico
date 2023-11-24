@@ -71,4 +71,6 @@ public abstract class Funcionario implements Serializable {
     
     abstract public String getCr();
     
+    abstract public void setCr(String cr);
+    
 }
