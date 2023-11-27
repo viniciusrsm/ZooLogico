@@ -19,7 +19,7 @@ public class RecintoMamifero extends Recinto {
     private double areaTotal;
 
     public RecintoMamifero(boolean possuiPoleiro, boolean aquatico, boolean arboricolas, double areaTotal, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia, ArrayList<String> cpfBiologosResponsaveis) {
-        super(tipoVegetação, diurno, idAnimaisAlocados, familia, cpfBiologosResponsaveis);
+        super(tipoVegetação, diurno, familia, cpfBiologosResponsaveis);
         this.possuiPoleiro = possuiPoleiro;
         this.aquatico = aquatico;
         this.arboricolas = arboricolas;

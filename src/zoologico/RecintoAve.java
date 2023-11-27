@@ -17,7 +17,7 @@ public class RecintoAve extends Recinto {
     private double volumeAviario;
 
     public RecintoAve(boolean possuiPoleiro, double volumeAviario, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia, ArrayList<String> cpfBiologosResponsaveis) {
-        super(tipoVegetação, diurno, idAnimaisAlocados, familia, cpfBiologosResponsaveis);
+        super(tipoVegetação, diurno, familia, cpfBiologosResponsaveis);
         this.possuiPoleiro = possuiPoleiro;
         this.volumeAviario = volumeAviario;
     }
