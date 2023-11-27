@@ -11,8 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import zoologico.Animal;
 import zoologico.GerenciadorArquivos;
 import zoologico.Veterinario;
+
+// Tela para analisar os animais designados para um veterinário específico ou todos os animais no caso do diretor, podendo serem feitas edições e remoções
 
 /**
  *
@@ -25,6 +28,9 @@ public class AnalisarAnimal extends javax.swing.JFrame {
      */
     GerenciadorArquivos arquivo;
     Veterinario veterinarioEscolhido;
+    ArrayList<Integer> animaisFiltrados = new ArrayList<Integer>();
+    ArrayList<Integer> animaisResponsavel = new ArrayList<Integer>();
+    boolean filtrado;
     
     public AnalisarAnimal() {
         initComponents();
@@ -54,11 +60,12 @@ public class AnalisarAnimal extends javax.swing.JFrame {
     
     public void carregarTabelaAnimais(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
-        
+        System.out.println(veterinarioEscolhido);
         if (veterinarioEscolhido != null) {
             ArrayList <String> idAnimais = veterinarioEscolhido.getIdAnimaisResponsavel();
             for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
                 if (idAnimais.contains(GerenciadorArquivos.getAnimais().get(i).getAnimalId())) {
+                    animaisResponsavel.add(i);
                     Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
                                             GerenciadorArquivos.getAnimais().get(i).getSexo(),
                                             GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
@@ -73,9 +80,39 @@ public class AnalisarAnimal extends javax.swing.JFrame {
                                         GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
                                         GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
                 modelo.addRow(linha);
+            }
         }
         tblAnimais.setModel(modelo);
+    }
+    
+    public void carregarTabelaPesAnimais(String comparar){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
+        
+        if (veterinarioEscolhido != null) {
+            ArrayList <String> idAnimais = veterinarioEscolhido.getIdAnimaisResponsavel();
+            for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
+                if (GerenciadorArquivos.getAnimais().get(i).getEspecie().toLowerCase().startsWith(comparar) && idAnimais.contains(GerenciadorArquivos.getAnimais().get(i).getAnimalId())) {
+                    animaisFiltrados.add(i);
+                    Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+                                            GerenciadorArquivos.getAnimais().get(i).getSexo(),
+                                            GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
+                                            GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
+                    modelo.addRow(linha);
+                }
+            }
+        } else {
+            for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
+                if(GerenciadorArquivos.getAnimais().get(i).getEspecie().toLowerCase().startsWith(comparar)){
+                    animaisFiltrados.add(i);
+                    Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+                                                GerenciadorArquivos.getAnimais().get(i).getSexo(),
+                                                GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
+                                                GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
+                    modelo.addRow(linha);
+                }
+            }
         }
+        tblAnimais.setModel(modelo);
     }
 
     /**
@@ -91,7 +128,7 @@ public class AnalisarAnimal extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAnimais = new javax.swing.JTable();
-        txtPesquisarAnimal = new javax.swing.JTextField();
+        txtEspecie = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnPesquisarAnimal = new javax.swing.JButton();
         btnEditarAnimal = new javax.swing.JButton();
@@ -101,7 +138,7 @@ public class AnalisarAnimal extends javax.swing.JFrame {
 
         tblAnimais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+
             },
             new String [] {
                 "Espécie", "Sexo", "Tipo Sanguíneo", "Data de nascimento"
@@ -138,6 +175,11 @@ public class AnalisarAnimal extends javax.swing.JFrame {
         jLabel1.setText("Filtrar por espécie:");
 
         btnPesquisarAnimal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/3844432-magnifier-search-zoom_110300.png"))); // NOI18N
+        btnPesquisarAnimal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarAnimalActionPerformed(evt);
+            }
+        });
 
         btnEditarAnimal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/edit_icon-icons.com_61193.png"))); // NOI18N
         btnEditarAnimal.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +204,7 @@ public class AnalisarAnimal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtPesquisarAnimal)
+                .addComponent(txtEspecie)
                 .addGap(18, 18, 18)
                 .addComponent(btnPesquisarAnimal)
                 .addContainerGap())
@@ -183,7 +225,7 @@ public class AnalisarAnimal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPesquisarAnimal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,24 +248,49 @@ public class AnalisarAnimal extends javax.swing.JFrame {
     }//GEN-LAST:event_tblAnimaisFocusLost
 
     private void btnEditarAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAnimalActionPerformed
-        if (tblAnimais.getSelectedRowCount() != 0) {
-            int index = tblAnimais.getSelectedRow();
+        if (tblAnimais.getSelectedRowCount() == 1) {
+            int index = 0;
+            System.out.println(filtrado);
+            if (filtrado == false) {
+                if (veterinarioEscolhido != null) index = animaisResponsavel.get(tblAnimais.getSelectedRow());
+                else index = tblAnimais.getSelectedRow();
+            } else {
+                index = animaisFiltrados.get(tblAnimais.getSelectedRow());
+                System.out.println(index);
+            }
             new AdicionarAnimal(arquivo, index).setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "Escolha um recinto da tabela", "Recinto não escolhido", JOptionPane.PLAIN_MESSAGE);
+        } else if (tblAnimais.getSelectedRowCount() > 1) {
+            JOptionPane.showMessageDialog(null, "Escolha apenas um animal da tabela", "Mais de um animal escolhido", JOptionPane.PLAIN_MESSAGE);
         }
-        
+        else {
+            JOptionPane.showMessageDialog(null, "Escolha um animal da tabela", "Animal não escolhido", JOptionPane.PLAIN_MESSAGE);
+        }        
     }//GEN-LAST:event_btnEditarAnimalActionPerformed
 
     private void btnDeletarAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarAnimalActionPerformed
-        if (tblAnimais.getSelectedRowCount() != 0) {
-            int index = tblAnimais.getSelectedRow();
+        if (tblAnimais.getSelectedRowCount() == 1) {
+            int index = 0;
+            System.out.println(filtrado);
+            if (filtrado == false) {
+                index = tblAnimais.getSelectedRow();
+            } else {
+                index = animaisFiltrados.get(tblAnimais.getSelectedRow());
+                System.out.println(index);
+            }
         
             if (index>=0 && index<GerenciadorArquivos.getAnimais().size()) {
-                arquivo.removerObjeto(0, GerenciadorArquivos.getAnimais().get(index));
-                carregarTabelaAnimais();
+                Animal animal = GerenciadorArquivos.getAnimais().get(index);
                 
+                for (int i = 0; i < GerenciadorArquivos.getFuncionarios().size(); i++) {
+                    if (animal.getVeterinariosResponsaveis().contains(GerenciadorArquivos.getFuncionarios().get(i).getCpf())) {
+                        Veterinario vet = (Veterinario) GerenciadorArquivos.getFuncionarios().get(i);
+                        vet.removerIdAnimal(animal.getAnimalId());
+                    }
+                }
                 
+                //veterinarioEscolhido.removerIdAnimal(animal.getAnimalId());
+                arquivo.removerObjeto(0, animal);
+                btnPesquisarAnimal.doClick();
             }
         } else if (tblAnimais.getSelectedRowCount() > 1) {
             JOptionPane.showMessageDialog(null, "Escolha apenas um animal da tabela", "Mais de um animal escolhido", JOptionPane.PLAIN_MESSAGE);
@@ -232,6 +299,22 @@ public class AnalisarAnimal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Escolha um animal da tabela", "Animal não escolhido", JOptionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_btnDeletarAnimalActionPerformed
+
+    private void btnPesquisarAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarAnimalActionPerformed
+        String comparar = txtEspecie.getText().toLowerCase();
+        
+        if (txtEspecie.getText().equals("")) filtrado = false;
+        else filtrado = true;
+        
+        animaisFiltrados.clear();
+        
+        if (txtEspecie.getText().equals("")) {
+                carregarTabelaAnimais();
+        } else {
+            comparar = txtEspecie.getText().toLowerCase();
+            carregarTabelaPesAnimais(comparar);
+        }
+    }//GEN-LAST:event_btnPesquisarAnimalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,6 +356,6 @@ public class AnalisarAnimal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAnimais;
-    private javax.swing.JTextField txtPesquisarAnimal;
+    private javax.swing.JTextField txtEspecie;
     // End of variables declaration//GEN-END:variables
 }

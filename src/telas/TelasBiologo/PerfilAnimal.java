@@ -6,6 +6,9 @@ package telas.TelasBiologo;
 
 import java.awt.Color;
 import javax.swing.UIManager;
+import zoologico.Animal;
+
+// Tela para exibir o perfil de um animal específico que foi selecionado na edição ou criação de um recinto
 
 /**
  *
@@ -20,6 +23,21 @@ public class PerfilAnimal extends javax.swing.JFrame {
         initComponents();
         
         setLocationRelativeTo(null);
+    }
+    
+    public PerfilAnimal(Animal animalEscolhido) {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        txtNome.setText(animalEscolhido.getNome());
+        txtCuidadosEspeciais.setText(animalEscolhido.getCuidadosEspeciais());
+        txtEspecie.setText(animalEscolhido.getEspecie());
+        txtHistorico.setText(animalEscolhido.getHistorico());
+        txtSexo.setText(animalEscolhido.getSexo());
+        txtTipoSanguineo.setText(animalEscolhido.getTipoSanguineo());
+        txtDataNascimento.setText(animalEscolhido.getDataNascimento());
+        btnVenenoso.setSelected(animalEscolhido.isVenenoso());
     }
 
     /**
@@ -38,10 +56,10 @@ public class PerfilAnimal extends javax.swing.JFrame {
         txtTipoSanguineo = new javax.swing.JTextField();
         btnVenenoso = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtHistorico = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtCuidadosEspeciais = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -115,17 +133,17 @@ public class PerfilAnimal extends javax.swing.JFrame {
         btnVenenoso.setText("É venenoso");
         btnVenenoso.setEnabled(false);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setEnabled(false);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtHistorico.setColumns(20);
+        txtHistorico.setRows(5);
+        txtHistorico.setEnabled(false);
+        jScrollPane1.setViewportView(txtHistorico);
 
         jLabel1.setText("Histórico:");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setEnabled(false);
-        jScrollPane2.setViewportView(jTextArea2);
+        txtCuidadosEspeciais.setColumns(20);
+        txtCuidadosEspeciais.setRows(5);
+        txtCuidadosEspeciais.setEnabled(false);
+        jScrollPane2.setViewportView(txtCuidadosEspeciais);
 
         jLabel2.setText("Cuidados especiais:");
 
@@ -304,10 +322,10 @@ public class PerfilAnimal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea txtCuidadosEspeciais;
     private javax.swing.JTextField txtDataNascimento;
     private javax.swing.JTextField txtEspecie;
+    private javax.swing.JTextArea txtHistorico;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtSexo;
     private javax.swing.JTextField txtTipoSanguineo;

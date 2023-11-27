@@ -15,6 +15,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+// Implementação do armazenamento do sistema
+// Apresenta 3 ArrayLists que ao abrir o programa são carregadas com todos os objetos existentes nos arquivos .txt
+// Possui 2 funções básicas de adicionar e excluir das ArrayLists, já a edição é feita através de setters e escolhendo um index da lista para alterar
+// A escrita nos arquivos é feita sempre ao fechar a tela inicial do tipo de funcionário escolhido (diretor, biólogo ou veterinário)
+
 /**
  *
  * @author Vinicius
@@ -66,10 +71,6 @@ public class GerenciadorArquivos {
         }
     }
     
-    public void editarObjeto(String path, String id) {
-        
-    }
-    
     public void importarArquivos() {
         Object obj1 = null;
         
@@ -104,9 +105,9 @@ public class GerenciadorArquivos {
         }
         
         try {
-            outputFileAnimal = new ObjectOutputStream(new FileOutputStream("./arquivos/animais.txt"));
-            outputFileFuncionario = new ObjectOutputStream(new FileOutputStream("./arquivos/funcionarios.txt"));
-            outputFileRecinto = new ObjectOutputStream(new FileOutputStream("./arquivos/recintos.txt"));
+            outputFileAnimal = new ObjectOutputStream(new FileOutputStream("animais.txt"));
+            outputFileFuncionario = new ObjectOutputStream(new FileOutputStream("funcionarios.txt"));
+            outputFileRecinto = new ObjectOutputStream(new FileOutputStream("recintos.txt"));
         } catch (IOException e) {}
         
         //caso não tenha nenhum funcionário adiciona um diretor admin
@@ -119,15 +120,15 @@ public class GerenciadorArquivos {
     
     public void exportarArquivos() throws Exception {
         for (int i = 0; i < animais.size(); i++) {
-            //ObjectOutputStream outputFileAnimal = new ObjectOutputStream(new FileOutputStream("./arquivos/animais.txt"));
+            //ObjectOutputStream outputFileAnimal = new ObjectOutputStream(new FileOutputStream("./animais.txt"));
             outputFileAnimal.writeObject(animais.get(i));
         }
         for (int j = 0; j < funcionarios.size(); j++) {
-            //ObjectOutputStream outputFileAnimal = new ObjectOutputStream(new FileOutputStream("./arquivos/funcionarios.txt"));
+            //ObjectOutputStream outputFileAnimal = new ObjectOutputStream(new FileOutputStream("./funcionarios.txt"));
             outputFileFuncionario.writeObject(funcionarios.get(j));
         }
         for (int k = 0; k < recintos.size(); k++) {
-            //ObjectOutputStream outputFileAnimal = new ObjectOutputStream(new FileOutputStream("./arquivos/recintos.txt"));
+            //ObjectOutputStream outputFileAnimal = new ObjectOutputStream(new FileOutputStream("./recintos.txt"));
             outputFileRecinto.writeObject(recintos.get(k));
         }
     }

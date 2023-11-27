@@ -6,6 +6,8 @@ package zoologico;
 
 import java.util.ArrayList;
 
+// Extensão da classe recinto que apresenta 4 novas características exclusivas
+
 /**
  *
  * @author Vinicius
@@ -16,8 +18,8 @@ public class RecintoPeixe extends Recinto {
     private float phAgua;
     private boolean osseo;
 
-    public RecintoPeixe(double volumeAquario, float temperaturaAgua, float phAgua, boolean osseo, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
-        super(tipoVegetação, diurno, idAnimaisAlocados, familia);
+    public RecintoPeixe(double volumeAquario, float temperaturaAgua, float phAgua, boolean osseo, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia, ArrayList<String> cpfBiologosResponsaveis) {
+        super(tipoVegetação, diurno, idAnimaisAlocados, familia, cpfBiologosResponsaveis);
         this.volumeAquario = volumeAquario;
         this.temperaturaAgua = temperaturaAgua;
         this.phAgua = phAgua;

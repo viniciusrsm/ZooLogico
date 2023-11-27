@@ -11,6 +11,8 @@ import zoologico.GerenciadorArquivos;
 import zoologico.Veterinario;
 import zoologico.Funcionario;
 
+// Tela inicial do veterinário, podendo escolher entre adicionar um animal ou analisar os animais já existentes
+
 /**
  *
  * @author Vinicius
@@ -32,7 +34,6 @@ public class VeterinarioTela extends javax.swing.JFrame {
         this.arquivo = arquivo;
         this.veterinarioEscolhido = veterinarioEscolhido;
         
-        this.veterinarioEscolhido = veterinarioEscolhido;
         txtNome.setText(veterinarioEscolhido.getNome());
         
         addWindowListener(new WindowAdapter(){

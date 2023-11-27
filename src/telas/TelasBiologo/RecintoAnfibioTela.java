@@ -11,8 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import zoologico.Animal;
+import zoologico.Biologo;
 import zoologico.GerenciadorArquivos;
 import zoologico.RecintoAnfibio;
+
+// Tela para criação e edição do recinto de anfíbios
 
 /**
  *
@@ -22,12 +25,31 @@ public class RecintoAnfibioTela extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
     boolean editor = false;
     RecintoAnfibio recintoEscolhido;
+    Biologo biologoCriador;
+    ArrayList<Animal> animaisContidos = new ArrayList<Animal>();
     /**
      * Creates new form AdicionarAnimal
      * @param arquivo
      * @param recintoEscolhido
      */
     
+    public RecintoAnfibioTela() {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+    }
+    
+    public RecintoAnfibioTela(GerenciadorArquivos arquivo, Biologo biologoCriador) {
+        initComponents();
+        
+        this.biologoCriador = biologoCriador;
+        
+        setLocationRelativeTo(null);
+        
+        this.arquivo = arquivo;
+    }
+     
     public RecintoAnfibioTela(GerenciadorArquivos arquivo, RecintoAnfibio recintoEscolhido) {
         initComponents();
         
@@ -37,6 +59,8 @@ public class RecintoAnfibioTela extends javax.swing.JFrame {
         this.recintoEscolhido = recintoEscolhido;
         
         this.editor = true;
+        
+        carregarTabelaAnimais();
         
         txtFamilia.setText(recintoEscolhido.getFamilia());
         txtVegetacao.setText(recintoEscolhido.getTipoVegetação());
@@ -51,21 +75,25 @@ public class RecintoAnfibioTela extends javax.swing.JFrame {
         txtUmidade.setForeground(new Color(0, 0, 0));
         txtTemperatura.setForeground(new Color(0, 0, 0));
         
+        
+        
     }
     
-    public RecintoAnfibioTela(GerenciadorArquivos arquivo) {
-        initComponents();
+    public void carregarTabelaAnimais(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
         
-        setLocationRelativeTo(null);
-        
-        this.arquivo = arquivo;
-    }
-    
-    public RecintoAnfibioTela() {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-        
+        ArrayList<Animal> animais = GerenciadorArquivos.getAnimais();
+        for(int i=0;i < animais.size(); i++) {
+            if (animais.get(i).getRecinto().getRecintoId().equals(recintoEscolhido.getRecintoId())) {
+                animaisContidos.add(GerenciadorArquivos.getAnimais().get(i));
+                Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+                    GerenciadorArquivos.getAnimais().get(i).getSexo(),
+                    GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
+                    GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
+                modelo.addRow(linha);
+            }
+        }
+        tblAnimais.setModel(modelo);
     }
 
     /**
@@ -396,13 +424,18 @@ public class RecintoAnfibioTela extends javax.swing.JFrame {
                 recintoEscolhido.setDiurno(jrDiurno.isSelected());
             }
             else {
-                ArrayList<String> animais = null;
+                ArrayList<String> biologos = new ArrayList<String>();
+                ArrayList<String> animais = new ArrayList<String>();
+                System.out.println(biologoCriador.getCpf());
+                biologos.add(biologoCriador.getCpf());
                 RecintoAnfibio recintoAnfCriado = new RecintoAnfibio(Float.parseFloat(txtUmidade.getText()), Double.parseDouble(txtVolume.getText()),
                                                        Float.parseFloat(txtTemperatura.getText()), txtVegetacao.getText(), 
-                                                                jrDiurno.isSelected(), animais, txtFamilia.getText());
+                                                                jrDiurno.isSelected(), animais, txtFamilia.getText(), biologos);
+                biologoCriador.adicionarIdRecinto(recintoAnfCriado.getRecintoId());
                 arquivo.adicionarObjeto(2, recintoAnfCriado);
             }
             dispose();
+            
             
         }
         
@@ -410,7 +443,7 @@ public class RecintoAnfibioTela extends javax.swing.JFrame {
 
     private void btnOlharAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlharAnimalActionPerformed
         if (tblAnimais.getSelectedRowCount() == 1) {
-            new PerfilAnimal().setVisible(true);
+            new PerfilAnimal(animaisContidos.get(tblAnimais.getSelectedRow())).setVisible(true);
         } else if (tblAnimais.getSelectedRowCount() > 1) {
             JOptionPane.showMessageDialog(null, "Escolha apenas um animal da tabela", "Mais de um animal escolhido", JOptionPane.PLAIN_MESSAGE);
         }

@@ -50,32 +50,32 @@ public class Login extends javax.swing.JFrame {
         ObjectInputStream inputFileFuncionario = null;
         ObjectInputStream inputFileRecinto = null;
         try {
-            inputFileAnimal = new ObjectInputStream(new FileInputStream("./arquivos/animais.txt"));
+            inputFileAnimal = new ObjectInputStream(new FileInputStream("animais.txt"));
         } catch (FileNotFoundException e) {
             try {
-                new ObjectOutputStream(new FileOutputStream("./arquivos/animais.txt"));
+                new ObjectOutputStream(new FileOutputStream("animais.txt"));
             } catch (FileNotFoundException ex) {}
             catch (IOException a) {}
         }
         catch (IOException e) {}
         
         try {
-            inputFileFuncionario = new ObjectInputStream(new FileInputStream("./arquivos/funcionarios.txt"));
+            inputFileFuncionario = new ObjectInputStream(new FileInputStream("funcionarios.txt"));
             
         } catch (FileNotFoundException e) {
             try {
-                new ObjectOutputStream(new FileOutputStream("./arquivos/funcionarios.txt"));
+                new ObjectOutputStream(new FileOutputStream("funcionarios.txt"));
             } catch (FileNotFoundException ex) {}
             catch (IOException a) {}
         }
         catch (IOException e) {}
         
         try {
-            inputFileRecinto = new ObjectInputStream(new FileInputStream("./arquivos/recintos.txt"));
+            inputFileRecinto = new ObjectInputStream(new FileInputStream("recintos.txt"));
             
         } catch (FileNotFoundException e) {
             try {
-                new ObjectOutputStream(new FileOutputStream("./arquivos/recintos.txt"));
+                new ObjectOutputStream(new FileOutputStream("recintos.txt"));
             } catch (FileNotFoundException ex) {}
             catch (IOException a) {}
         }
@@ -206,19 +206,30 @@ public class Login extends javax.swing.JFrame {
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         Diretor dir = (Diretor) GerenciadorArquivos.getFuncionarios().get(0);
-        if (dir.getNome().equals("admin")) {
-            new DiretorTela(arquivo).setVisible(true); this.dispose();
-        }
+        System.out.println(dir.getNome());
+        
         for (int i=0; i < GerenciadorArquivos.getFuncionarios().size(); i++) {
             Funcionario funcionarioEscolhido =  GerenciadorArquivos.getFuncionarios().get(i);
-            
-            if (funcionarioEscolhido.getCpf().equals(txtCpf.getText()) && funcionarioEscolhido.getSenha().equals(String.valueOf(txtpSenha.getPassword()))) {
-                if (funcionarioEscolhido instanceof Diretor) new DiretorTela(arquivo).setVisible(true); this.dispose();
-                if (funcionarioEscolhido instanceof Veterinario) new VeterinarioTela(arquivo, (Veterinario) funcionarioEscolhido).setVisible(true); this.dispose();
-                if (funcionarioEscolhido instanceof Biologo) new BiologoTela(arquivo, (Biologo) funcionarioEscolhido).setVisible(true); this.dispose();
-                
-            
-        }
+            if (dir.getNome().equals("admin") && txtCpf.getText().equals("admin")) {
+                new DiretorTela(arquivo).setVisible(true); this.dispose();
+                break;
+            } else if (funcionarioEscolhido.getCpf().equals(txtCpf.getText()) && funcionarioEscolhido.getSenha().equals(String.valueOf(txtpSenha.getPassword())) && !txtCpf.getText().equals("")) {
+                if (funcionarioEscolhido instanceof Diretor) {
+                    new DiretorTela(arquivo).setVisible(true);
+                    this.dispose();
+                    break;
+                }
+                if (funcionarioEscolhido instanceof Veterinario) {
+                    new VeterinarioTela(arquivo, (Veterinario) funcionarioEscolhido).setVisible(true);
+                    this.dispose();
+                    break;
+                }
+                if (funcionarioEscolhido instanceof Biologo) {
+                    new BiologoTela(arquivo, (Biologo) funcionarioEscolhido).setVisible(true);
+                    this.dispose();
+                    break;
+                }
+            }
         }
         
         

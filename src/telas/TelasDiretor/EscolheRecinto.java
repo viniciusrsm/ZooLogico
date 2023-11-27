@@ -4,14 +4,24 @@
  */
 package telas.TelasDiretor;
 
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import zoologico.GerenciadorArquivos;
+import zoologico.Recinto;
 
-/**
- *
- * @author Vinicius
- */
+// Tela feita para escolher um recinto para adicionar como responsabilidade à um biólogo na sua criação ou edição
+// Além disso, também é utilizada para escolher o recinto no qual o animal será alocado
+
+
 public class EscolheRecinto extends javax.swing.JFrame {
-
+    ArrayList<String> idRecintos;
+    JButton btnAtualizarResp;
+    ArrayList<Recinto> recintoEscolhido;
+    boolean ehAnimal;
+    JLabel labelRecinto;
     /**
      * Creates new form EscolheAnimal
      */
@@ -19,8 +29,33 @@ public class EscolheRecinto extends javax.swing.JFrame {
         initComponents();
         
         setLocationRelativeTo(null);
+        
+        carregarTabelaRecintos();
     }
+    
+    public EscolheRecinto(ArrayList<Recinto> recintoEscolhido, JLabel labelRecinto) {
+        initComponents();
+        
+        this.recintoEscolhido = recintoEscolhido;
+        this.ehAnimal = true;
+        this.labelRecinto = labelRecinto;
+        
+        setLocationRelativeTo(null);
+        
+        carregarTabelaRecintos();
+    }
+    
+    public EscolheRecinto(ArrayList<String> idRecintos, JButton btnAtualizarResp) {
+        initComponents();
 
+        this.idRecintos = idRecintos;
+        this.btnAtualizarResp = btnAtualizarResp;
+        
+        setLocationRelativeTo(null);
+        
+        carregarTabelaRecintos();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,15 +110,44 @@ public class EscolheRecinto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnConfirmarRecintoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarRecintoActionPerformed
-        if (tblRecintos.getSelectedRowCount() == 1) {
-            dispose();
-        } else if (tblRecintos.getSelectedRowCount() > 1) {
-            JOptionPane.showMessageDialog(null, "Escolha apenas um recinto da tabela", "Mais de um recinto escolhido", JOptionPane.PLAIN_MESSAGE);
+    public void carregarTabelaRecintos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Tipo de recinto", "Família", "Vegetação"}, 0);
+        
+        for(int i=0;i < GerenciadorArquivos.getRecintos().size(); i++) {
+            Object linha[] = new Object[]{GerenciadorArquivos.getRecintos().get(i).toString(),
+                GerenciadorArquivos.getRecintos().get(i).getFamilia(),
+                GerenciadorArquivos.getRecintos().get(i).getTipoVegetação()};
+            modelo.addRow(linha);
         }
-        else {
-            JOptionPane.showMessageDialog(null, "Escolha um recinto da tabela", "Recinto não escolhido", JOptionPane.PLAIN_MESSAGE);
-        };
+        
+        tblRecintos.setModel(modelo);
+    }
+    
+    private void btnConfirmarRecintoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarRecintoActionPerformed
+        if (idRecintos == null) {
+            if (tblRecintos.getSelectedRowCount() == 1) {
+                Recinto rec = GerenciadorArquivos.getRecintos().get(tblRecintos.getSelectedRow());
+                recintoEscolhido.add(rec);
+                labelRecinto.setText(rec.getFamilia());
+                dispose();
+            } else if (tblRecintos.getSelectedRowCount() > 1) {
+                JOptionPane.showMessageDialog(null, "Escolha apenas um recinto da tabela", "Mais de um recinto escolhido", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Escolha um recinto da tabela", "Recinto não escolhido", JOptionPane.PLAIN_MESSAGE);
+            }
+        } else {
+            System.out.println("tesetetsetet");
+            if (tblRecintos.getSelectedRowCount() != 0) {
+                for (int i=0; i < tblRecintos.getSelectedRows().length; i++) {
+                    idRecintos.add(GerenciadorArquivos.getRecintos().get(tblRecintos.getSelectedRows()[i]).getRecintoId());
+                }
+                System.out.println(idRecintos);
+                btnAtualizarResp.doClick();
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Escolha um recinto da tabela", "Recinto não escolhido", JOptionPane.PLAIN_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnConfirmarRecintoActionPerformed
 
     /**

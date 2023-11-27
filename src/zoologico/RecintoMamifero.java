@@ -6,6 +6,8 @@ package zoologico;
 
 import java.util.ArrayList;
 
+// Extensão da classe recinto que apresenta 4 novas características exclusivas
+
 /**
  *
  * @author Vinicius
@@ -16,8 +18,8 @@ public class RecintoMamifero extends Recinto {
     private boolean arboricolas;
     private double areaTotal;
 
-    public RecintoMamifero(boolean possuiPoleiro, boolean aquatico, boolean arboricolas, double areaTotal, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
-        super(tipoVegetação, diurno, idAnimaisAlocados, familia);
+    public RecintoMamifero(boolean possuiPoleiro, boolean aquatico, boolean arboricolas, double areaTotal, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia, ArrayList<String> cpfBiologosResponsaveis) {
+        super(tipoVegetação, diurno, idAnimaisAlocados, familia, cpfBiologosResponsaveis);
         this.possuiPoleiro = possuiPoleiro;
         this.aquatico = aquatico;
         this.arboricolas = arboricolas;

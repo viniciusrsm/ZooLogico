@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
+// Implementação da classe dos animais
+// São armazenados além de suas informações próprias, um ID gerado automaticamente, um recinto no qual está alocado, e os CPFs dos veterinários que tem acesso ao animal
+
 /**
  *
  * @author Vinicius
@@ -51,8 +54,12 @@ public class Animal implements Serializable {
         return CpfVeterinariosResponsaveis;
     }
 
-    public void setVeterinariosResponsaveis(ArrayList<String> veterinariosResponsaveis) {
-        this.CpfVeterinariosResponsaveis = veterinariosResponsaveis;
+    public void adicionarCpfVeterinario(String cpf) {
+        this.CpfVeterinariosResponsaveis.add(cpf);
+    }
+    
+    public void removerCpfVeterinario(String cpf) {
+        this.CpfVeterinariosResponsaveis.remove(cpf);
     }
 
     public Recinto getRecinto() {

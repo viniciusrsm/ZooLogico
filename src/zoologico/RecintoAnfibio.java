@@ -6,6 +6,8 @@ package zoologico;
 
 import java.util.ArrayList;
 
+// Extensão da classe recinto que apresenta 3 novas características exclusivas
+
 /**
  *
  * @author Vinicius
@@ -18,8 +20,8 @@ public class RecintoAnfibio extends Recinto {
     public RecintoAnfibio() {
     }
 
-    public RecintoAnfibio(float umidade, double volumeTerrario, float temperaturaTerrario, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia) {
-        super(tipoVegetação, diurno, idAnimaisAlocados, familia);
+    public RecintoAnfibio(float umidade, double volumeTerrario, float temperaturaTerrario, String tipoVegetação, boolean diurno, ArrayList<String> idAnimaisAlocados, String familia, ArrayList<String> cpfBiologosResponsaveis) {
+        super(tipoVegetação, diurno, idAnimaisAlocados, familia, cpfBiologosResponsaveis);
         this.umidade = umidade;
         this.volumeTerrario = volumeTerrario;
         this.temperaturaTerrario = temperaturaTerrario;

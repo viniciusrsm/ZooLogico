@@ -6,6 +6,8 @@ package telas.TelasDiretor;
 
 import zoologico.GerenciadorArquivos;
 
+// Tela básica para decidir qual ação será tomada quanto ao funcionário (criar ou analisar)
+
 /**
  *
  * @author gugas

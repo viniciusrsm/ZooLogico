@@ -5,6 +5,8 @@
 package telas.TelasDiretor;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +18,8 @@ import zoologico.GerenciadorArquivos;
 import zoologico.Recinto;
 import zoologico.Veterinario;
 
+// Tela para criar um novo funcionário ou editar um já existente caso seja selecionada a função de editar na tabela de análise
+
 /**
  *
  * @author gugas
@@ -25,27 +29,52 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
     /**
      * Creates new form AdicionarFuncionario
      */
-    static ArrayList<Animal> listaAnimais;
-    boolean flag;
     
     boolean editor = false;
     Funcionario funcionarioEscolhido;
+    //ArrayList<Animal> animaisEscolhidos = new ArrayList<Animal>();
+    //ArrayList<Recinto> recintosEscolhidos = new ArrayList<Recinto>();
+    ArrayList<String> idAnimaisEscolhidos = new ArrayList<String>();
+    ArrayList<String> idRecintosEscolhidos = new ArrayList<String>();
     
     public AdicionarFuncionario() {
         initComponents();
-        flag = false;
-        btnDelResponsabilidades.setEnabled(false);
         btnAddResponsabilidade.setEnabled(false);
         
         setLocationRelativeTo(null);
+        
+        btnAtualizarResp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carregarRespAnimais();
+                carregarRespRecintos();
+            }
+            
+        });
+    }
+    
+    public AdicionarFuncionario(GerenciadorArquivos arquivo) {
+        this.arquivo = arquivo;
+        
+        initComponents();
+        btnAddResponsabilidade.setEnabled(false);
+        
+        setLocationRelativeTo(null);
+        
+        btnAtualizarResp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carregarRespAnimais();
+                carregarRespRecintos();
+            }
+            
+        });
     }
     
     public AdicionarFuncionario(GerenciadorArquivos arquivo, int indexLista) {
         this.arquivo = arquivo;
         
         initComponents();
-        flag = false;
-        btnDelResponsabilidades.setEnabled(false);
         btnAddResponsabilidade.setEnabled(false);
         
         funcionarioEscolhido = arquivo.getFuncionarios().get(indexLista);
@@ -60,12 +89,16 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
         txtDataNascimento.setText(funcionarioEscolhido.getDataNascimento());
         txtSenha.setText(funcionarioEscolhido.getSenha());
         
-        if (funcionarioEscolhido instanceof Biologo) {
+        if (funcionarioEscolhido instanceof Biologo biologo) {
             jrbBiologo.setSelected(true);
-            carregarTabelaRecintos();
+            this.idRecintosEscolhidos = biologo.getIdRecintosResponsavel();
+            System.out.println(this.idRecintosEscolhidos);
+            carregarRespRecintos();
         } else {
             jrbVeterinario.setSelected(true);
-            carregarTabelaAnimais();
+            Veterinario vet = (Veterinario) funcionarioEscolhido;
+            this.idAnimaisEscolhidos = vet.getIdAnimaisResponsavel();
+            carregarRespAnimais();
         }
         
         btnAddResponsabilidade.setEnabled(true);
@@ -78,50 +111,48 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
         txtSexo.setForeground(new Color(0, 0, 0));
         txtSenha.setForeground(new Color(0, 0, 0));
         txtDataNascimento.setForeground(new Color(0, 0, 0));
+        
+        
+        
+        btnAtualizarResp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                idAnimaisEscolhidos.clear();
+                if (jrbBiologo.isSelected()) carregarRespRecintos();
+                else carregarRespAnimais();
+                
+                System.out.println("igasdwfgadgwvgwvcd");
+            }
+            
+        });
     }
     
-    public AdicionarFuncionario(GerenciadorArquivos arquivo) {
-        this.arquivo = arquivo;
-        
-        initComponents();
-        flag = false;
-        btnDelResponsabilidades.setEnabled(false);
-        btnAddResponsabilidade.setEnabled(false);
-        
-        setLocationRelativeTo(null);
-    }
-    
-    public void carregarTabelaAnimais(){
-        //DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Nome"}, 0);
-        
-        //for(int i=0;i < listaAnimais.size(); i++) {
-        //    Object linha[] = new Object[]{listaAnimais.get(i).getEspecie(), listaAnimais.get(i).getNome()};
-        //    modelo.addRow(linha);
-        //}
-        tblResponsabilidades.setModel(new DefaultTableModel(
+    public void carregarRespAnimais(){
+        DefaultTableModel modelo =  new DefaultTableModel(
             new Object [][] {
                 
             },
             new String [] {
                 "Espécie", "Nome"
             }
-        ));
-        //tblResponsabilidades.setModel(modelo);
+        );
+        
+            ArrayList<Animal> animais = GerenciadorArquivos.getAnimais();
+            for(int i=0;i < animais.size(); i++) {
+                if (idAnimaisEscolhidos.contains(animais.get(i).getAnimalId())) {
+                    Object linha[] = new Object[]{animais.get(i).getEspecie(),
+                        animais.get(i).getNome()};
+                    modelo.addRow(linha);
+                }
+            }
+        
+            tblResponsabilidades.setModel(modelo);
         
         
     }
     
     
-    public void carregarTabelaRecintos(){
-        //DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Nome"}, 0);
-        
-        //for(int i=0;i < listaAnimais.size(); i++) {
-        //    Object linha[] = new Object[]{listaAnimais.get(i).getEspecie(), listaAnimais.get(i).getNome()};
-        //    modelo.addRow(linha);
-        //}
-        
-        
-        
+    public void carregarRespRecintos(){
         DefaultTableModel modelo = new DefaultTableModel(
             new Object [][] {
                 
@@ -130,11 +161,26 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                 "Tipo de recinto", "Família"
             }
         );
-        tblResponsabilidades.setModel(modelo);
+        
+        
+            ArrayList<Recinto> recintos = GerenciadorArquivos.getRecintos();
+            for(int i=0;i < recintos.size(); i++) {
+                if (idRecintosEscolhidos.contains(recintos.get(i).getRecintoId())) {
+                    Object linha[] = new Object[]{recintos.get(i).toString(),
+                        recintos.get(i).getFamilia()};
+                    modelo.addRow(linha);
+                }
+            }
+        
+            tblResponsabilidades.setModel(modelo);
+        }
+        
+        
+        
         //tblResponsabilidades.setModel(modelo);
         
         
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -146,6 +192,7 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        btnAtualizarResp = new javax.swing.JButton();
         txtNome = new javax.swing.JTextField();
         txtCpf = new javax.swing.JTextField();
         txtDataNascimento = new javax.swing.JTextField();
@@ -162,7 +209,8 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
         tblResponsabilidades = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnAddResponsabilidade = new javax.swing.JButton();
-        btnDelResponsabilidades = new javax.swing.JButton();
+
+        btnAtualizarResp.setText("jButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -299,13 +347,6 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
             }
         });
 
-        btnDelResponsabilidades.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/delete_32.png"))); // NOI18N
-        btnDelResponsabilidades.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDelResponsabilidadesActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -329,17 +370,13 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnAddResponsabilidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(0, 0, Short.MAX_VALUE)
-                                            .addComponent(btnDelResponsabilidades))))
+                                    .addComponent(btnAddResponsabilidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(40, 40, 40)
-                                    .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(43, 43, 43)
+                                    .addGap(31, 31, 31)
+                                    .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(36, 36, 36)
                                     .addComponent(txtSexo))
                                 .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -375,24 +412,22 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                 .addComponent(txtCr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnConfFuncionario))
-                            .addComponent(btnCancFuncionario))
-                        .addGap(51, 51, 51))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAddResponsabilidade)
+                        .addGap(47, 47, 47)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDelResponsabilidades)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnConfFuncionario))
+                    .addComponent(btnCancFuncionario))
+                .addGap(51, 51, 51))
         );
 
         pack();
@@ -404,12 +439,14 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
 
     private void jrbBiologoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbBiologoActionPerformed
         btnAddResponsabilidade.setEnabled(true);
-        carregarTabelaRecintos();
+        idAnimaisEscolhidos.clear();
+        carregarRespRecintos();
     }//GEN-LAST:event_jrbBiologoActionPerformed
 
     private void jrbVeterinarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbVeterinarioActionPerformed
         btnAddResponsabilidade.setEnabled(true);
-        carregarTabelaAnimais();
+        idRecintosEscolhidos.clear();
+        carregarRespAnimais();
     }//GEN-LAST:event_jrbVeterinarioActionPerformed
 
     private void txtNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNomeFocusGained
@@ -497,29 +534,16 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCrFocusLost
 
     private void btnAddResponsabilidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddResponsabilidadeActionPerformed
-        //boolean penis = jrbVeterinario.isSelected() ? "a" : "b";
+        
         if (jrbVeterinario.isSelected()) {
-            new EscolheAnimal().setVisible(true);
-        } else {
-            new EscolheRecinto().setVisible(true);
-        }
-        //new EscolheAnimal().setVisible(true);
-        //new PerfilRecinto().setVisible(true);
-        //jrbVeterinario.isSelected() ? new EscolheAnimal().setVisible(true) : new PerfilRecinto().setVisible(true);
-        //flag ? new EscolheAnimal().setVisible(true): new PerfilRecinto().setVisible(true);
-    }//GEN-LAST:event_btnAddResponsabilidadeActionPerformed
-
-    private void btnDelResponsabilidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelResponsabilidadesActionPerformed
-        if (tblResponsabilidades.getSelectedRowCount() == 1) {
+            idAnimaisEscolhidos.clear();
+            new EscolheAnimal(idAnimaisEscolhidos, btnAtualizarResp).setVisible(true);
             
-        } else if (tblResponsabilidades.getSelectedRowCount() > 1) {
-            JOptionPane.showMessageDialog(null, "Escolha apenas uma responsabilidade da tabela", "Mais de uma responsabilidade escolhido", JOptionPane.PLAIN_MESSAGE);
+        } else {
+            idRecintosEscolhidos.clear();
+            new EscolheRecinto(idRecintosEscolhidos, btnAtualizarResp).setVisible(true);
         }
-        else {
-            JOptionPane.showMessageDialog(null, "Escolha uma responsabilidade da tabela", "Responsabilidade não escolhida", JOptionPane.PLAIN_MESSAGE);
-        };
-       
-    }//GEN-LAST:event_btnDelResponsabilidadesActionPerformed
+    }//GEN-LAST:event_btnAddResponsabilidadeActionPerformed
 
     private void btnCancFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancFuncionarioActionPerformed
         dispose();
@@ -535,21 +559,20 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", JOptionPane.PLAIN_MESSAGE);
         } else {
-            boolean cpfExiste = true;
+            boolean cpfExiste = false;
             for (int i=0; i < GerenciadorArquivos.getFuncionarios().size(); i++) {
                 System.out.println("mano 2222222222");
-                if (txtCpf.getText().equals(GerenciadorArquivos.getFuncionarios().get(i).getCpf())) {
+                if (txtCpf.getText().equals(GerenciadorArquivos.getFuncionarios().get(i).getCpf()) && !editor) {
                     System.out.println("mano sladasudawh");
                     JOptionPane.showMessageDialog(null, "Este CPF já está cadastrado", "CPF já cadastrado", JOptionPane.PLAIN_MESSAGE);
-                    cpfExiste = false;
+                    cpfExiste = true;
                     break;
                 }
             }
             
             System.out.println(cpfExiste);
             
-            // se estiver editando um animal já criado
-            if (cpfExiste) {
+            if (!cpfExiste || editor) {
                 if (editor) {
                 funcionarioEscolhido.setNome(txtNome.getText());
                 funcionarioEscolhido.setCpf(txtCpf.getText());
@@ -557,18 +580,22 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
                 funcionarioEscolhido.setSenha(txtSenha.getText());
                 funcionarioEscolhido.setSexo(txtSexo.getText());
                 funcionarioEscolhido.setCr(txtCr.getText());
+                if (funcionarioEscolhido instanceof Biologo biologo) {
+                    biologo.setIdRecintosResponsavel(idRecintosEscolhidos);
+                } else if (funcionarioEscolhido instanceof Veterinario veterinario) {
+                    veterinario.setIdAnimaisResponsavel(idAnimaisEscolhidos);
+                }
             
-                // se estiver criando um animal
                 } else {
                     //Recinto recinto = null;
                     if (jrbBiologo.isSelected()) {
-                        ArrayList<Recinto> recintos = new ArrayList<Recinto>();
-                        Biologo biologoCriado = new Biologo(txtCr.getText(), recintos, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
+                        
+                        Biologo biologoCriado = new Biologo(txtCr.getText(), idRecintosEscolhidos, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
 
                         arquivo.adicionarObjeto(1, biologoCriado);
                     } else {
-                        ArrayList<String> idAnimais = new ArrayList<String>();
-                        Veterinario vetCriado = new Veterinario(txtCr.getText(), idAnimais, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
+                        
+                        Veterinario vetCriado = new Veterinario(txtCr.getText(), idAnimaisEscolhidos, txtNome.getText(), txtCpf.getText(), txtDataNascimento.getText(), txtSexo.getText(), txtSenha.getText());
 
                         arquivo.adicionarObjeto(1, vetCriado);
                     }
@@ -612,9 +639,9 @@ public class AdicionarFuncionario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddResponsabilidade;
+    private javax.swing.JButton btnAtualizarResp;
     private javax.swing.JButton btnCancFuncionario;
     private javax.swing.JButton btnConfFuncionario;
-    private javax.swing.JButton btnDelResponsabilidades;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;

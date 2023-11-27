@@ -13,6 +13,8 @@ import zoologico.Diretor;
 import zoologico.Funcionario;
 import zoologico.GerenciadorArquivos;
 
+// Tela de início do diretor, podendo escolher entre 3 opções gerais do que realizar em seguida
+
 /**
  *
  * @author Vinicius
@@ -32,12 +34,12 @@ public class DiretorTela extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         addWindowListener(new WindowAdapter(){
-                public void windowClosing(WindowEvent e){
-                    try {
-                        arquivo.exportarArquivos();
-                    } catch (Exception ex) {}
-                }
-            });
+            public void windowClosing(WindowEvent e){
+                try {
+                    arquivo.exportarArquivos();
+                } catch (Exception ex) {}
+            }
+        });
     }
     
     public DiretorTela(GerenciadorArquivos arquivo) {

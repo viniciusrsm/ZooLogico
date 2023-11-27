@@ -4,10 +4,14 @@
  */
 package telas.TelasDiretor;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import zoologico.Biologo;
+import zoologico.Funcionario;
 import zoologico.GerenciadorArquivos;
+
+// Tela feita para a análise de funcionários existentes, podendo editá-los e excluí-los
 
 /**
  *
@@ -15,13 +19,19 @@ import zoologico.GerenciadorArquivos;
  */
 public class AnalisarFuncionario extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
+    ArrayList<Integer> funcionariosFiltrados = new ArrayList<Integer>();
+    boolean filtrado;
     /**
      * Creates new form AnalisarFuncionario
      * @param arquivo
      */
     
+    
     public AnalisarFuncionario() {
         initComponents();
+        
+        jrCpf.setSelected(true);
+        txtNomePesquisar.setEnabled(false);
         
         setLocationRelativeTo(null);
         carregarTabelaFuncionarios();
@@ -33,30 +43,43 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
         
         initComponents();
         
+        jrCpf.setSelected(true);
+        txtNomePesquisar.setEnabled(false);
+        
         setLocationRelativeTo(null);
         carregarTabelaFuncionarios(); 
     }
     
-    public void carregarTabelaPesFuncionario(String cpf){
+    public void carregarTabelaPesFuncionario(String comparar, boolean flag){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"CPF", "Nome", "Data de nascimento", "Sexo", "Cargo", "CR"}, 0);
         
         for(int i=1;i < GerenciadorArquivos.getFuncionarios().size(); i++) {
-            
-            if (GerenciadorArquivos.getFuncionarios().get(i).getCpf().startsWith(cpf))
-            {Object linha[] = new Object[]{GerenciadorArquivos.getFuncionarios().get(i).getCpf(),
-                                        GerenciadorArquivos.getFuncionarios().get(i).getNome(),
-                                        GerenciadorArquivos.getFuncionarios().get(i).getDataNascimento(),
-                                        GerenciadorArquivos.getFuncionarios().get(i).getSexo(),
-                                        GerenciadorArquivos.getFuncionarios().get(i) instanceof Biologo ? "Biólogo" : "Veterinário",
-                                        GerenciadorArquivos.getFuncionarios().get(i).getCr()};
-            modelo.addRow(linha);
-        }
-        
-        
-        tblFuncionarios.setModel(modelo);
-        
-        
-    }}
+                if(flag == true){
+                    if (GerenciadorArquivos.getFuncionarios().get(i).getCpf().toLowerCase().startsWith(comparar)) {
+                        funcionariosFiltrados.add(i);
+                        Object linha[] = new Object[]{GerenciadorArquivos.getFuncionarios().get(i).getCpf(),
+                                                    GerenciadorArquivos.getFuncionarios().get(i).getNome(),
+                                                    GerenciadorArquivos.getFuncionarios().get(i).getDataNascimento(),
+                                                    GerenciadorArquivos.getFuncionarios().get(i).getSexo(),
+                                                    GerenciadorArquivos.getFuncionarios().get(i) instanceof Biologo ? "Biólogo" : "Veterinário",
+                                                    GerenciadorArquivos.getFuncionarios().get(i).getCr()};
+                        modelo.addRow(linha);
+                    }
+                }
+                else if(GerenciadorArquivos.getFuncionarios().get(i).getNome().toLowerCase().startsWith(comparar)){
+                    funcionariosFiltrados.add(i);
+                    Object linha[] = new Object[]{GerenciadorArquivos.getFuncionarios().get(i).getCpf(),
+                                            GerenciadorArquivos.getFuncionarios().get(i).getNome(),
+                                            GerenciadorArquivos.getFuncionarios().get(i).getDataNascimento(),
+                                            GerenciadorArquivos.getFuncionarios().get(i).getSexo(),
+                                            GerenciadorArquivos.getFuncionarios().get(i) instanceof Biologo ? "Biólogo" : "Veterinário",
+                                            GerenciadorArquivos.getFuncionarios().get(i).getCr()};
+                modelo.addRow(linha);
+                } 
+                    
+            }
+        tblFuncionarios.setModel(modelo); 
+    }
     
     public void carregarTabelaFuncionarios(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[] {"CPF", "Nome", "Data de nascimento", "Sexo", "Cargo", "CR"}, 0);
@@ -71,11 +94,7 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
                                         GerenciadorArquivos.getFuncionarios().get(i).getCr()};
             modelo.addRow(linha);
         }
-        
-        
         tblFuncionarios.setModel(modelo);
-        
-        
     }
 
     /**
@@ -87,24 +106,18 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        txtNomePesquisar = new javax.swing.JTextField();
-        btncPesquisar = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFuncionarios = new javax.swing.JTable();
         btnEditarFuncionario = new javax.swing.JButton();
         btnDeletarFuncionario = new javax.swing.JButton();
+        btncPesquisar = new javax.swing.JButton();
+        txtNomePesquisar = new javax.swing.JTextField();
+        txtCpfPesquisar = new javax.swing.JTextField();
+        jrCpf = new javax.swing.JRadioButton();
+        jrNome = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel1.setText("Filtrar por CPF:");
-
-        btncPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/3844432-magnifier-search-zoom_110300.png"))); // NOI18N
-        btncPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btncPesquisarActionPerformed(evt);
-            }
-        });
 
         tblFuncionarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,6 +169,41 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
             }
         });
 
+        btncPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/3844432-magnifier-search-zoom_110300.png"))); // NOI18N
+        btncPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncPesquisarActionPerformed(evt);
+            }
+        });
+
+        txtNomePesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomePesquisarActionPerformed(evt);
+            }
+        });
+
+        txtCpfPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCpfPesquisarActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jrCpf);
+        jrCpf.setText("Filtrar por CPF:");
+        jrCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrCpfActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jrNome);
+        jrNome.setText("Filtrar por Nome:");
+        jrNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrNomeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,32 +211,41 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNomePesquisar)
+                        .addContainerGap(233, Short.MAX_VALUE)
+                        .addComponent(btnEditarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 240, Short.MAX_VALUE)
+                        .addComponent(btnDeletarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jrCpf)
+                            .addComponent(jrNome))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCpfPesquisar)
+                            .addComponent(txtNomePesquisar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btncPesquisar)
-                        .addGap(12, 12, 12))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(206, Short.MAX_VALUE)
-                        .addComponent(btnEditarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
-                        .addComponent(btnDeletarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(10, 10, 10)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(txtNomePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btncPesquisar))
-                .addGap(16, 16, 16)
+                    .addComponent(btncPesquisar)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCpfPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jrCpf))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNomePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jrNome))))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,36 +266,93 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_tblFuncionariosFocusLost
 
     private void btnEditarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarFuncionarioActionPerformed
-        if (tblFuncionarios.getSelectedRowCount() != 0) {
-            int index = tblFuncionarios.getSelectedRow() + 1;
+        if (tblFuncionarios.getSelectedRowCount() == 1) {
+            int index = 0;
+            System.out.println(filtrado);
+            if (filtrado == false) {
+                index = tblFuncionarios.getSelectedRow() + 1;
+            } else {
+                index = funcionariosFiltrados.get(tblFuncionarios.getSelectedRow());
+                System.out.println(index);
+            }
             new AdicionarFuncionario(arquivo, index).setVisible(true);
-        } else {
+        } else if (tblFuncionarios.getSelectedRowCount() > 1) {
+            JOptionPane.showMessageDialog(null, "Escolha apenas um funcionário da tabela", "Mais de um funcionário escolhido", JOptionPane.PLAIN_MESSAGE);
+        }
+        else {
             JOptionPane.showMessageDialog(null, "Escolha um funcionário da tabela", "Funcionário não escolhido", JOptionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarFuncionarioActionPerformed
 
     private void btnDeletarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarFuncionarioActionPerformed
-        if (tblFuncionarios.getSelectedRowCount() != 0) {
-            int index = tblFuncionarios.getSelectedRow() + 1;
+        if (tblFuncionarios.getSelectedRowCount() == 1) {
+            int index = 0;
+            System.out.println(filtrado);
+            if (filtrado == false) {
+                index = tblFuncionarios.getSelectedRow() + 1;
+            } else {
+                index = funcionariosFiltrados.get(tblFuncionarios.getSelectedRow());
+                System.out.println(index);
+            }
         
             if (index>=0 && index<GerenciadorArquivos.getFuncionarios().size()) {
                 arquivo.removerObjeto(1, GerenciadorArquivos.getFuncionarios().get(index));
-                carregarTabelaFuncionarios();
+                btncPesquisar.doClick();
                 
                 
             }
         } else if (tblFuncionarios.getSelectedRowCount() > 1) {
-            JOptionPane.showMessageDialog(null, "Escolha apenas um animal da tabela", "Mais de um animal escolhido", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Escolha apenas um funcionário da tabela", "Mais de um funcionário escolhido", JOptionPane.PLAIN_MESSAGE);
         }
         else {
-            JOptionPane.showMessageDialog(null, "Escolha um animal da tabela", "Animal não escolhido", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Escolha um funcionário da tabela", "Funcionário não escolhido", JOptionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_btnDeletarFuncionarioActionPerformed
 
     private void btncPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncPesquisarActionPerformed
-        String cpf = txtNomePesquisar.getText();
-        carregarTabelaPesFuncionario(cpf);
+        String comparar;
+        boolean flag;
+        if (txtCpfPesquisar.getText().equals("") && txtCpfPesquisar.getText().equals("")) filtrado = false;
+        else filtrado = true;
+        funcionariosFiltrados.clear();
+        if(jrCpf.isSelected()){
+            if (txtCpfPesquisar.getText().equals("")) {
+                carregarTabelaFuncionarios();
+            } else {
+                comparar = txtCpfPesquisar.getText().toLowerCase();
+                flag = true;
+                carregarTabelaPesFuncionario(comparar, flag);
+            }
+            
+        }
+        else {
+            if (txtNomePesquisar.getText().equals("")) {
+                carregarTabelaFuncionarios();
+            } else {
+                comparar = txtNomePesquisar.getText().toLowerCase();
+                flag = false;
+                carregarTabelaPesFuncionario(comparar, flag);
+            }
+        }
     }//GEN-LAST:event_btncPesquisarActionPerformed
+
+    private void jrNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrNomeActionPerformed
+        txtNomePesquisar.setEnabled(true);
+        txtCpfPesquisar.setEnabled(false);
+    }//GEN-LAST:event_jrNomeActionPerformed
+
+    private void txtCpfPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCpfPesquisarActionPerformed
+        
+    }//GEN-LAST:event_txtCpfPesquisarActionPerformed
+
+    private void jrCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrCpfActionPerformed
+        txtNomePesquisar.setEnabled(false);
+        txtCpfPesquisar.setEnabled(true);
+    }//GEN-LAST:event_jrCpfActionPerformed
+
+    private void txtNomePesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomePesquisarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomePesquisarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,9 +388,12 @@ public class AnalisarFuncionario extends javax.swing.JFrame {
     private javax.swing.JButton btnDeletarFuncionario;
     private javax.swing.JButton btnEditarFuncionario;
     private javax.swing.JButton btncPesquisar;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton jrCpf;
+    private javax.swing.JRadioButton jrNome;
     private javax.swing.JTable tblFuncionarios;
+    private javax.swing.JTextField txtCpfPesquisar;
     private javax.swing.JTextField txtNomePesquisar;
     // End of variables declaration//GEN-END:variables
 }

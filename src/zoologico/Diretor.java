@@ -6,6 +6,10 @@ package zoologico;
 
 import java.util.ArrayList;
 
+// Implementação da classe do diretor
+// Possui acesso à todas as listas do banco de dados, podendo editar elementos existentes ou excluí-los
+// No caso de funcionários, o diretor também consegue cadastrar novos
+
 /**
  *
  * @author Vinicius

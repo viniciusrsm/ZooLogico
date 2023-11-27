@@ -34,7 +34,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="txtPesquisarAnimal" max="32767" attributes="0"/>
+              <Component id="txtEspecie" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnPesquisarAnimal" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -59,7 +59,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtPesquisarAnimal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtEspecie" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -84,7 +84,7 @@
         <Component class="javax.swing.JTable" name="tblAnimais">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="1">
+              <Table columnCount="4" rowCount="0">
                 <Column editable="true" title="Esp&#xe9;cie" type="java.lang.String"/>
                 <Column editable="true" title="Sexo" type="java.lang.String"/>
                 <Column editable="true" title="Tipo Sangu&#xed;neo" type="java.lang.String"/>
@@ -126,7 +126,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="txtPesquisarAnimal">
+    <Component class="javax.swing.JTextField" name="txtEspecie">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -139,6 +139,9 @@
           <Image iconType="3" name="/imagens/3844432-magnifier-search-zoom_110300.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarAnimalActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEditarAnimal">
       <Properties>

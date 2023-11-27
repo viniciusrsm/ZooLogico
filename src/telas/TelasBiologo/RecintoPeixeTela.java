@@ -11,8 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import zoologico.Animal;
+import zoologico.Biologo;
 import zoologico.GerenciadorArquivos;
 import zoologico.RecintoPeixe;
+
+// Tela para criação e edição do recinto de peixes
 
 /**
  *
@@ -20,12 +23,32 @@ import zoologico.RecintoPeixe;
  */
 public class RecintoPeixeTela extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
-    RecintoPeixe recintoEscolhido;
     boolean editor = false;
+    RecintoPeixe recintoEscolhido;
+    Biologo biologoCriador;
+    ArrayList<Animal> animaisContidos = new ArrayList<Animal>();
+
     /**
      * Creates new form AdicionarAnimal
      * @param arquivo
      */
+    public RecintoPeixeTela() {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+    }
+    
+    public RecintoPeixeTela(GerenciadorArquivos arquivo, Biologo biologoCriador) {
+        initComponents();
+        
+        this.biologoCriador = biologoCriador;
+        
+        setLocationRelativeTo(null);
+        
+        this.arquivo = arquivo;
+    }
+    
     public RecintoPeixeTela(GerenciadorArquivos arquivo, RecintoPeixe recintoEscolhido) {
         initComponents();
         
@@ -35,6 +58,8 @@ public class RecintoPeixeTela extends javax.swing.JFrame {
         this.recintoEscolhido = recintoEscolhido;
         
         this.editor = true;
+        
+        carregarTabelaAnimais();
         
         txtFamilia.setText(recintoEscolhido.getFamilia());
         txtVegetacao.setText(recintoEscolhido.getTipoVegetação());
@@ -52,19 +77,21 @@ public class RecintoPeixeTela extends javax.swing.JFrame {
         
     }
     
-    public RecintoPeixeTela(GerenciadorArquivos arquivo) {
-        initComponents();
+    public void carregarTabelaAnimais(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
         
-        setLocationRelativeTo(null);
-        
-        this.arquivo = arquivo;
-    }
-    
-    public RecintoPeixeTela() {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-        
+        ArrayList<Animal> animais = GerenciadorArquivos.getAnimais();
+        for(int i=0;i < animais.size(); i++) {
+            if (animais.get(i).getRecinto().getRecintoId().equals(recintoEscolhido.getRecintoId())) {
+                animaisContidos.add(GerenciadorArquivos.getAnimais().get(i));
+                Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+                    GerenciadorArquivos.getAnimais().get(i).getSexo(),
+                    GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
+                    GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
+                modelo.addRow(linha);
+            }
+        }
+        tblAnimais.setModel(modelo);
     }
 
     /**
@@ -383,7 +410,7 @@ public class RecintoPeixeTela extends javax.swing.JFrame {
 
     private void btnOlharAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlharAnimalActionPerformed
         if (tblAnimais.getSelectedRowCount() == 1) {
-            new PerfilAnimal().setVisible(true);
+            new PerfilAnimal(animaisContidos.get(tblAnimais.getSelectedRow())).setVisible(true);
         } else if (tblAnimais.getSelectedRowCount() > 1) {
             JOptionPane.showMessageDialog(null, "Escolha apenas um animal da tabela", "Mais de um animal escolhido", JOptionPane.PLAIN_MESSAGE);
         }
@@ -409,10 +436,14 @@ public class RecintoPeixeTela extends javax.swing.JFrame {
                 recintoEscolhido.setOsseo(jrOsseo.isSelected());
             }
             else {
-                ArrayList<String> animais = null;
+                ArrayList<String> biologos = new ArrayList<String>();
+                ArrayList<String> animais = new ArrayList<String>();
+                System.out.println(biologoCriador.getCpf());
+                biologos.add(biologoCriador.getCpf());
                 RecintoPeixe recintoPeixeCriado = new RecintoPeixe(Double.parseDouble(txtVolume.getText()), Float.parseFloat(txtTemperatura.getText()), Float.parseFloat(txtPh.getText()), 
                                                     jrOsseo.isSelected(), txtVegetacao.getText(),
-                                                    jrDiurno.isSelected(), animais, txtFamilia.getText());
+                                                    jrDiurno.isSelected(), animais, txtFamilia.getText(), biologos);
+                biologoCriador.adicionarIdRecinto(recintoPeixeCriado.getRecintoId());
                 arquivo.adicionarObjeto(2, recintoPeixeCriado);
             }
             dispose();

@@ -4,7 +4,10 @@
  */
 package telas.TelasBiologo;
 
+import zoologico.Biologo;
 import zoologico.GerenciadorArquivos;
+
+// Tela para selecionar qual tipo de recinto será adicionado
 
 /**
  *
@@ -12,23 +15,24 @@ import zoologico.GerenciadorArquivos;
  */
 public class AdicionarRecinto extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
+    Biologo biologoCriador;
     /**
      * Creates new form AdicionarRecinto
      */
-    public AdicionarRecinto(GerenciadorArquivos arquivo) {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-        
-        this.arquivo = arquivo;
-    }
-    
     public AdicionarRecinto() {
         initComponents();
         
         setLocationRelativeTo(null);
     }
-
+    
+    public AdicionarRecinto(GerenciadorArquivos arquivo, Biologo biologoCriador) {
+        initComponents();
+        
+        this.biologoCriador = biologoCriador;
+        this.arquivo = arquivo;
+        
+        setLocationRelativeTo(null);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -147,23 +151,23 @@ public class AdicionarRecinto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMamiferoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMamiferoActionPerformed
-        new RecintoMamiferoTela(arquivo).setVisible(true);
+        new RecintoMamiferoTela(arquivo, biologoCriador).setVisible(true);
     }//GEN-LAST:event_btnMamiferoActionPerformed
 
     private void btnAveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAveActionPerformed
-        new RecintoAveTela(arquivo).setVisible(true);
+        new RecintoAveTela(arquivo, biologoCriador).setVisible(true);
     }//GEN-LAST:event_btnAveActionPerformed
 
     private void btnReptilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReptilActionPerformed
-        new RecintoRepteisTela(arquivo).setVisible(true);
+        new RecintoRepteisTela(arquivo, biologoCriador).setVisible(true);
     }//GEN-LAST:event_btnReptilActionPerformed
 
     private void btnPeixeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeixeActionPerformed
-        new RecintoPeixeTela(arquivo).setVisible(true);
+        new RecintoPeixeTela(arquivo, biologoCriador).setVisible(true);
     }//GEN-LAST:event_btnPeixeActionPerformed
 
     private void btnAnfibioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnfibioActionPerformed
-        new RecintoAnfibioTela(arquivo).setVisible(true);
+        new RecintoAnfibioTela(arquivo, biologoCriador).setVisible(true);
     }//GEN-LAST:event_btnAnfibioActionPerformed
 
     /**

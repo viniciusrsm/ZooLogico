@@ -4,19 +4,34 @@
  */
 package telas.TelasDiretor;
 
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import zoologico.Animal;
+import zoologico.GerenciadorArquivos;
 
-/**
- *
- * @author Vinicius
- */
-public class EscolheAnimal extends javax.swing.JFrame {
+// Tela feita para escolher um animal para adicionar como responsabilidade à um veterinário na sua criação ou edição
 
+
+public class EscolheAnimal extends javax.swing.JFrame{
+    ArrayList<String> idAnimais;
+    JButton atualizarTabela;
     /**
      * Creates new form EscolheAnimal
      */
     public EscolheAnimal() {
         initComponents();
+        
+        setLocationRelativeTo(null);
+    }
+    
+    public EscolheAnimal(ArrayList<String> idAnimais, JButton atualizarTabela) {
+        initComponents();
+        
+        this.idAnimais = idAnimais;
+        this.atualizarTabela = atualizarTabela;
         
         setLocationRelativeTo(null);
     }
@@ -83,12 +98,29 @@ public class EscolheAnimal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnConfirmarAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarAnimalActionPerformed
-        if (tblAnimais.getSelectedRowCount() == 1) {
-            dispose();
-        } else if (tblAnimais.getSelectedRowCount() > 1) {
-            JOptionPane.showMessageDialog(null, "Escolha apenas um animal da tabela", "Mais de um animal escolhido", JOptionPane.PLAIN_MESSAGE);
+    public void carregarTabelaAnimais(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
+        
+        for(int i=0;i < GerenciadorArquivos.getAnimais().size(); i++) {
+            Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+                                    GerenciadorArquivos.getAnimais().get(i).getSexo(),
+                                    GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
+                                    GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
+            modelo.addRow(linha);
         }
+        
+        tblAnimais.setModel(modelo);
+    }
+    
+    private void btnConfirmarAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarAnimalActionPerformed
+        if (tblAnimais.getSelectedRowCount() != 0) {
+            for (int i=0; i < tblAnimais.getSelectedRows().length; i++) {
+                idAnimais.add(GerenciadorArquivos.getAnimais().get(tblAnimais.getSelectedRows()[i]).getAnimalId());
+            }
+            System.out.println(idAnimais);
+            atualizarTabela.doClick();
+            dispose();
+        } 
         else {
             JOptionPane.showMessageDialog(null, "Escolha um animal da tabela", "Animal não escolhido", JOptionPane.PLAIN_MESSAGE);
         };

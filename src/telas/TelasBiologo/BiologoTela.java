@@ -10,22 +10,34 @@ import telas.EditarPerfil;
 import zoologico.Biologo;
 import zoologico.GerenciadorArquivos;
 
+// Tela de início do biólogo
+
 /**
  *
  * @author Vinicius
  */
 public class BiologoTela extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
+    Biologo biologoEscolhido;
     /**
      * Creates new form Biologo
      * @param arquivo
      */
+    public BiologoTela() {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+    }
+    
     public BiologoTela(GerenciadorArquivos arquivo, Biologo biologoEscolhido) {
         initComponents();
         
         setLocationRelativeTo(null);
         
         this.arquivo = arquivo;
+        this.biologoEscolhido = biologoEscolhido;
+        
+        txtNome.setText(biologoEscolhido.getNome());
         
         addWindowListener(new WindowAdapter(){
                 public void windowClosing(WindowEvent e){
@@ -35,13 +47,6 @@ public class BiologoTela extends javax.swing.JFrame {
                 }
             });
     }
-    
-    public BiologoTela() {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,15 +153,15 @@ public class BiologoTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarPerfilActionPerformed
-        new EditarPerfil().setVisible(true);
+        new EditarPerfil(arquivo, biologoEscolhido).setVisible(true);
     }//GEN-LAST:event_btnEditarPerfilActionPerformed
 
     private void btnAdicionarRecintoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarRecintoActionPerformed
-        new AdicionarRecinto(arquivo).setVisible(true);
+        new AdicionarRecinto(arquivo, biologoEscolhido).setVisible(true);
     }//GEN-LAST:event_btnAdicionarRecintoActionPerformed
 
     private void btnAnalisarRecintoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisarRecintoActionPerformed
-        new AnalisarRecinto(arquivo).setVisible(true);
+        new AnalisarRecinto(arquivo, biologoEscolhido).setVisible(true);
     }//GEN-LAST:event_btnAnalisarRecintoActionPerformed
 
     /**

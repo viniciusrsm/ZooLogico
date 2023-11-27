@@ -6,31 +6,40 @@ package zoologico;
 
 import java.util.ArrayList;
 
+// Implementação da classe dos biólogos
+// Possui uma CRBio e os IDs dos recintos que ele é responsável e tem acesso
+
 /**
  *
  * @author Vinicius
  */
 public class Biologo extends Funcionario {
     private String crbio;
-    private ArrayList<Recinto> recintosResponsavel;
+    private ArrayList<String> idRecintosResponsavel;
 
-    public Biologo(String crbio, ArrayList<Recinto> recintos, String nome, String cpf, String dataNascimento, String sexo, String senha) {
-        super(nome, cpf, dataNascimento, sexo, senha);
-        this.crbio = crbio;
-        this.recintosResponsavel = recintos;
-    }
-    
     public Biologo() {
     }
-
     
-    
-    public void adicionarRecinto(Recinto recinto) {
-        recintosResponsavel.add(recinto);
+    public Biologo(String crbio, ArrayList<String> idRecintosResponsavel, String nome, String cpf, String dataNascimento, String sexo, String senha) {
+        super(nome, cpf, dataNascimento, sexo, senha);
+        this.crbio = crbio;
+        this.idRecintosResponsavel = idRecintosResponsavel != null ? idRecintosResponsavel : new ArrayList<String>();
     }
     
-    public void removerRecinto(Recinto recinto) {
-        recintosResponsavel.remove(recinto);
+    public void adicionarIdRecinto(String idRecinto) {
+        idRecintosResponsavel.add(idRecinto);
+    }
+    
+    public void removerIdRecinto(String idRecinto) {
+        idRecintosResponsavel.remove(idRecinto);
+    }
+    
+    public ArrayList<String> getIdRecintosResponsavel() {
+        return this.idRecintosResponsavel;
+    }
+
+    public void setIdRecintosResponsavel(ArrayList<String> idRecintosResponsavel) {
+        this.idRecintosResponsavel = idRecintosResponsavel;
     }
     
     @Override

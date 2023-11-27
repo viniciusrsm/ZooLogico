@@ -6,6 +6,9 @@ package zoologico;
 
 import java.io.Serializable;
 
+// Classe abstrata dos funcionários que gera as classes do biólogo, do veterinário e do diretor
+// Possui as informações que todas tem em comum
+
 /**
  *
  * @author Vinicius

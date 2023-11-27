@@ -11,8 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import zoologico.Animal;
+import zoologico.Biologo;
 import zoologico.GerenciadorArquivos;
 import zoologico.RecintoMamifero;
+
+// Tela para criação e edição do recinto de mamíferos
 
 /**
  *
@@ -20,12 +23,34 @@ import zoologico.RecintoMamifero;
  */
 public class RecintoMamiferoTela extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
-    RecintoMamifero recintoEscolhido;
     boolean editor = false;
+    RecintoMamifero recintoEscolhido;
+    Biologo biologoCriador;
+    ArrayList<Animal> animaisContidos = new ArrayList<Animal>();
+
     /**
      * Creates new form AdicionarAnimal
      * @param arquivo
      */
+    
+    public RecintoMamiferoTela() {
+        initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        
+    }
+    
+    public RecintoMamiferoTela(GerenciadorArquivos arquivo, Biologo biologoCriador) {
+        initComponents();
+        
+        this.biologoCriador = biologoCriador;
+        
+        setLocationRelativeTo(null);
+        
+        this.arquivo = arquivo;
+    }
+    
     public RecintoMamiferoTela(GerenciadorArquivos arquivo, RecintoMamifero recintoEscolhido) {
         initComponents();
         
@@ -35,6 +60,8 @@ public class RecintoMamiferoTela extends javax.swing.JFrame {
         this.recintoEscolhido = recintoEscolhido;
         
         this.editor = true;
+        
+        carregarTabelaAnimais();
         
         txtFamilia.setText(recintoEscolhido.getFamilia());
         txtVegetacao.setText(recintoEscolhido.getTipoVegetação());
@@ -50,20 +77,21 @@ public class RecintoMamiferoTela extends javax.swing.JFrame {
         
     }
     
-    public RecintoMamiferoTela(GerenciadorArquivos arquivo) {
-        initComponents();
+    public void carregarTabelaAnimais(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[] {"Espécie", "Sexo", "Tipo sanguíneo", "Data de nascimento"}, 0);
         
-        setLocationRelativeTo(null);
-        
-        this.arquivo = arquivo;
-    }
-    
-    public RecintoMamiferoTela() {
-        initComponents();
-        
-        setLocationRelativeTo(null);
-        
-        
+        ArrayList<Animal> animais = GerenciadorArquivos.getAnimais();
+        for(int i=0;i < animais.size(); i++) {
+            if (animais.get(i).getRecinto().getRecintoId().equals(recintoEscolhido.getRecintoId())) {
+                animaisContidos.add(GerenciadorArquivos.getAnimais().get(i));
+                Object linha[] = new Object[]{GerenciadorArquivos.getAnimais().get(i).getEspecie(),
+                    GerenciadorArquivos.getAnimais().get(i).getSexo(),
+                    GerenciadorArquivos.getAnimais().get(i).getTipoSanguineo(),
+                    GerenciadorArquivos.getAnimais().get(i).getDataNascimento()};
+                modelo.addRow(linha);
+            }
+        }
+        tblAnimais.setModel(modelo);
     }
 
     /**
@@ -292,13 +320,13 @@ public class RecintoMamiferoTela extends javax.swing.JFrame {
 
     private void btnOlharAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlharAnimalActionPerformed
         if (tblAnimais.getSelectedRowCount() == 1) {
-            new PerfilAnimal().setVisible(true);
+            new PerfilAnimal(animaisContidos.get(tblAnimais.getSelectedRow())).setVisible(true);
         } else if (tblAnimais.getSelectedRowCount() > 1) {
             JOptionPane.showMessageDialog(null, "Escolha apenas um animal da tabela", "Mais de um animal escolhido", JOptionPane.PLAIN_MESSAGE);
         }
         else {
             JOptionPane.showMessageDialog(null, "Escolha um animal da tabela", "Animal não escolhido", JOptionPane.PLAIN_MESSAGE);
-        };
+        }
     }//GEN-LAST:event_btnOlharAnimalActionPerformed
 
     private void txtFamiliaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFamiliaFocusGained
@@ -361,10 +389,14 @@ public class RecintoMamiferoTela extends javax.swing.JFrame {
                 recintoEscolhido.setPossuiPoleiro(jrPoleiro.isSelected());
             }
             else {
-                ArrayList<String> animais = null;
+                ArrayList<String> biologos = new ArrayList<String>();
+                ArrayList<String> animais = new ArrayList<String>();
+                System.out.println(biologoCriador.getCpf());
+                biologos.add(biologoCriador.getCpf());
                 RecintoMamifero recintoMamCriado = new RecintoMamifero(jrPoleiro.isSelected(), jrAquatico.isSelected(), jrArboricola.isSelected(), 
                                                     Double.parseDouble(txtArea.getText()), txtVegetacao.getText(),
-                                                    jrDiurno.isSelected(), animais, txtFamilia.getText());
+                                                    jrDiurno.isSelected(), animais, txtFamilia.getText(), biologos);
+                biologoCriador.adicionarIdRecinto(recintoMamCriado.getRecintoId());
                 arquivo.adicionarObjeto(2, recintoMamCriado);
             }
             dispose();

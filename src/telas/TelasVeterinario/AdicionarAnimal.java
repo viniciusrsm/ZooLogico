@@ -22,6 +22,8 @@ import zoologico.GerenciadorArquivos;
 import zoologico.Recinto;
 import zoologico.Veterinario;
 
+// Tela para criar um novo animal ou editar um já existente caso seja selecionada a função de editar na tabela de análise
+
 /**
  *
  * @author Vinicius
@@ -29,10 +31,12 @@ import zoologico.Veterinario;
 public class AdicionarAnimal extends javax.swing.JFrame {
     GerenciadorArquivos arquivo;
     Veterinario veterinarioCriador;
+    ArrayList<Recinto> recintoEscolhido = new ArrayList<Recinto>();
     
     // atributos para edição de um animal escolhido
     boolean editor = false;
     Animal animalEscolhido = null;
+    
     
     public AdicionarAnimal() {
         initComponents();        
@@ -65,6 +69,7 @@ public class AdicionarAnimal extends javax.swing.JFrame {
         txtTipoSanguineo.setText(animalEscolhido.getTipoSanguineo());
         txtDataNascimento.setText(animalEscolhido.getDataNascimento());
         btnVenenoso.setSelected(animalEscolhido.isVenenoso());
+        lblRecinto.setText(animalEscolhido.getRecinto().getFamilia());
         
         txtNome.setForeground(new Color(0, 0, 0));
         txtCuidadosEspeciais.setForeground(new Color(0, 0, 0));
@@ -107,6 +112,7 @@ public class AdicionarAnimal extends javax.swing.JFrame {
         btnCancAnimal = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnAlterarRecinto = new javax.swing.JButton();
+        lblRecinto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -209,7 +215,7 @@ public class AdicionarAnimal extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("ID do recinto:");
+        jLabel3.setText("Família do recinto:");
 
         btnAlterarRecinto.setText("Alterar recinto");
         btnAlterarRecinto.addActionListener(new java.awt.event.ActionListener() {
@@ -217,6 +223,8 @@ public class AdicionarAnimal extends javax.swing.JFrame {
                 btnAlterarRecintoActionPerformed(evt);
             }
         });
+
+        lblRecinto.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,9 +260,12 @@ public class AdicionarAnimal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
                             .addComponent(btnAlterarRecinto))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblRecinto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -279,7 +290,9 @@ public class AdicionarAnimal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblRecinto))
                 .addGap(4, 4, 4)
                 .addComponent(btnAlterarRecinto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -369,7 +382,7 @@ public class AdicionarAnimal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSexoFocusGained
 
     private void btnAlterarRecintoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarRecintoActionPerformed
-        new EscolheRecinto().setVisible(true);
+        new EscolheRecinto(recintoEscolhido, lblRecinto).setVisible(true);
     }//GEN-LAST:event_btnAlterarRecintoActionPerformed
 
     private void btnCancAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancAnimalActionPerformed
@@ -379,7 +392,7 @@ public class AdicionarAnimal extends javax.swing.JFrame {
     private void btnConfAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfAnimalActionPerformed
         if (txtEspecie.getText().equals("Espécie") || txtNome.getText().equals("Nome") || txtDataNascimento.getText().equals("Data de nascimento") || 
                 txtTipoSanguineo.getText().equals("Senha") || txtSexo.getText().equals("Sexo") || 
-                txtCuidadosEspeciais.getText().equals("") || txtHistorico.getText().equals("")) 
+                txtCuidadosEspeciais.getText().equals("") || txtHistorico.getText().equals("") || recintoEscolhido.isEmpty()) 
             {
                 
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", JOptionPane.PLAIN_MESSAGE);
@@ -397,22 +410,19 @@ public class AdicionarAnimal extends javax.swing.JFrame {
                 animalEscolhido.setCuidadosEspeciais(txtCuidadosEspeciais.getText());
                 animalEscolhido.setRecinto(null);
                 animalEscolhido.setVenenoso(btnVenenoso.isSelected());
+                animalEscolhido.setRecinto(recintoEscolhido.get(0));
             
             // se estiver criando um animal
             } else {
-                Recinto recinto = null;
                 ArrayList<String> veterinarios = new ArrayList<String>();
-                System.out.println(veterinarioCriador.getCpf());
                 veterinarios.add(veterinarioCriador.getCpf());
                 Animal animalCriado = new Animal(txtEspecie.getText(), txtNome.getText(),txtSexo.getText(),txtDataNascimento.getText(),
                     txtHistorico.getText(),txtCuidadosEspeciais.getText(),
-                    btnVenenoso.isSelected(),txtTipoSanguineo.getText(),recinto, veterinarios);
+                    btnVenenoso.isSelected(),txtTipoSanguineo.getText(),recintoEscolhido.get(0), veterinarios);
                 
                 veterinarioCriador.adicionarIdAnimal(animalCriado.getAnimalId());
                 arquivo.adicionarObjeto(0, animalCriado);
-                
             }
-            
             dispose();                  
         }
     }//GEN-LAST:event_btnConfAnimalActionPerformed
@@ -462,6 +472,7 @@ public class AdicionarAnimal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblRecinto;
     private javax.swing.JTextArea txtCuidadosEspeciais;
     private javax.swing.JTextField txtDataNascimento;
     private javax.swing.JTextField txtEspecie;

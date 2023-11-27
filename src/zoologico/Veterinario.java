@@ -6,6 +6,9 @@ package zoologico;
 
 import java.util.ArrayList;
 
+// Implementação da classe dos biólogos
+// Possui um CRmv e os IDs dos animais que ele é responsável e tem acesso
+
 /**
  *
  * @author Vinicius
@@ -34,6 +37,10 @@ public class Veterinario extends Funcionario {
     
     public ArrayList<String> getIdAnimaisResponsavel() {
         return this.idAnimaisResponsavel;
+    }
+
+    public void setIdAnimaisResponsavel(ArrayList<String> idAnimaisResponsavel) {
+        this.idAnimaisResponsavel = idAnimaisResponsavel;
     }
     
     @Override
